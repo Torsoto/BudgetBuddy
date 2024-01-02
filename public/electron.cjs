@@ -14,7 +14,7 @@ const createWindow = () => {
     })
 
     // and load the index.html of the app.
-    //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) <- Uncommenct for desktop package and to test build
+    //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) // < - Uncommenct for desktop package and to test build
     mainWindow.loadURL('http://localhost:3000')
 
     // Open the DevTools.
