@@ -5,8 +5,8 @@ const path = require('path');
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
@@ -14,7 +14,7 @@ const createWindow = () => {
     })
 
     // and load the index.html of the app.
-    //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) // < - Uncommenct for desktop package and to test build
+    //mainWindow.loadFile(path.join(app.getAppPath(), 'index.html')) // < - Uncommenct for desktop package and to test build
     mainWindow.loadURL('http://localhost:3000')
 
     // Open the DevTools.
