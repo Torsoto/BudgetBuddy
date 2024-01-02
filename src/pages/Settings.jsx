@@ -1,8 +1,14 @@
 import React from 'react'
+import Sidebar from '../components/Sidebar';
 
 const Settings = () => {
   return (
-    <div>Settings</div>
+    <div className='Settings'>
+      <Sidebar></Sidebar>
+      <div className='content'>
+        <h1>Settings</h1>
+      </div>
+    </div>
   )
 }
 
