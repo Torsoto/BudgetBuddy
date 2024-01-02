@@ -11,7 +11,7 @@ const Homepage = () => {
             <Sidebar />
             <div className="content">
                 <h1>Home</h1>
-                <p>BudgetBuddy</p>
+                <div className='inputs'></div>
                 <Link to="/login">
                     <button>Go to Login</button>
                 </Link>
