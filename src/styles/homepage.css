@@ -1,0 +1,27 @@
+.homepage {
+  display: flex;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
