@@ -1,0 +1,36 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    background-color: #3f3e3e;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding-left: 0px;
+    color: black;
+  }
+  
+  .sidebar li {
+    font-size: 20px;
+    padding: 15px;
+    text-align: left;
+  }
+ 
+  .sidebar-toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .sidebar {
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar a {
+    display: block;
+    margin-bottom: 10px;
+  }
