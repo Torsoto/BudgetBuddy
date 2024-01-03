@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
-import { Link } from "react-router-dom";
 import "../styles/homepage.css";
 
 const Homepage = () => {
@@ -19,9 +18,6 @@ const Homepage = () => {
             <a>Outcome</a>
           </div>
         </div>
-        <Link to="/login">
-          <button>Go to Login</button>
-        </Link>
       </div>
     </div>
   );
