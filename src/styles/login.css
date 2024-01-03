@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
   }
   
   .login-form {
@@ -40,9 +39,24 @@
   }
 
   .google-signin-text {
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
   }
 
+  .signup-login-text {
+    color: black;
+  }
+
+  #signup-link-text {
+    padding-left: 10px;
+  }
+  #bb-logo {
+  width: 350px;
+  }
+
+  a:hover {
+    transform: scale(1.03);
+  }

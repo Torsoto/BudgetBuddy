@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
   }
   
   .signup-form {
@@ -18,6 +18,13 @@
   }
   
   .signup-button.google {
-    background-color: #4285F4;
-    color: white;
+    color: black;
   }
+
+  #bb-logo {
+    width: 350px;
+    }
+   
+    .google-logo {
+      width: 50px;
+    }

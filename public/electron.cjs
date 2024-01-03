@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron')
 const process = require('process');
+const url = require('url');
 const path = require('path');
 
 const createWindow = () => {
@@ -13,9 +14,9 @@ const createWindow = () => {
         }
     })
 
-    // and load the index.html of the app.
-    //mainWindow.loadFile(path.join(app.getAppPath(), 'index.html')) // < - Uncommenct for desktop package and to test build
     mainWindow.loadURL('http://localhost:3000')
+    //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) // <- Uncomment for build version.
+
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
