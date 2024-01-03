@@ -14,16 +14,14 @@
   }
   
   .sidebar li {
+    display: flex;
     font-size: 20px;
     padding: 15px;
     text-align: left;
   }
 
   .sidebar li:hover {
-    font-size: 20px;
-    padding: 15px;
-    text-align: left;
-    background-color: #fcfcfc;
+    background-color: #e6e6e6;
   }
  
   .sidebar-toggle {
@@ -33,7 +31,6 @@
   }
   
   .sidebar {
-    padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
   
@@ -41,3 +38,9 @@
     display: block;
     margin-bottom: 10px;
   }
+
+.sidebar img {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}

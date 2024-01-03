@@ -5,7 +5,6 @@ import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx'
 import Settings from './pages/Settings.jsx'
 import Entries from './pages/Entries.jsx';
-import Account from './pages/Account.jsx';
 import BudgetGoals from './pages/BudgetGoals.jsx';
 
 
@@ -18,7 +17,6 @@ function App() {
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/Settings" element={<Settings />} />
       <Route path="/Entries" element={<Entries />} />
-      <Route path="/Account" element={<Account />} />
       <Route path="/BudgetGoals" element={<BudgetGoals />} />
     </Routes>
   )
