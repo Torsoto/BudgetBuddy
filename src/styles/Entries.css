@@ -1,0 +1,9 @@
+.entry {
+    width: 300px;
+    height: auto;
+    background-color: lightslategray;
+}
+
+.entry p {
+    color: black;
+}
