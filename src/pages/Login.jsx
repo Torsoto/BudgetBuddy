@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase/firestore.mjs';
 import '../styles/login.css';
 import { useNavigate, Link } from 'react-router-dom';
-import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.jpg'
+import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.png'
 
 const Login = () => {
   const [username, setUsername] = useState('');

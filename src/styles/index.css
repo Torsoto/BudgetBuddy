@@ -3,14 +3,22 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #ffffff;
+  background-color: #fffefc;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+input {
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #333; /* or any other style change */
 }
 
 label {
@@ -31,7 +39,6 @@ a:hover {
 body {
   margin: auto;
   display: flex;
-  place-items: center;
 }
 
 h1 {
@@ -41,11 +48,11 @@ h1 {
 button {
   border-radius: 8px;
   border: 1px solid transparent;
+  outline: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: white;
   cursor: pointer;
   transition: border-color 0.25s, transform 0.3s; 
   color: black;
@@ -59,13 +66,12 @@ button:hover {
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px auto black;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    background-color: white;
   }
   button {
     background-color: #f9f9f9;

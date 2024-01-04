@@ -1,5 +1,6 @@
 .sidebar {
     position: fixed;
+    display: inline-block;
     top: 0;
     left: 0;
     height: 100%;
@@ -20,10 +21,6 @@
     text-align: left;
   }
 
-  .sidebar li:hover {
-    background-color: #e6e6e6;
-  }
- 
   .sidebar-toggle {
     position: absolute;
     top: 0;

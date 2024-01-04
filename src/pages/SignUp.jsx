@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import '../styles/SignUp.css';
 import { useNavigate, Link } from 'react-router-dom';
-import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.jpg'
+import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.png'
 
 const SignUp = () => {
     const [email, setEmail] = useState('');

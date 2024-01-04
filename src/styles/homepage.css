@@ -1,17 +1,10 @@
-.homepage {
-  display: flex;
-}
-
 h1 {
   color: black;
 }
 
-.content {
-  flex-grow: 1;
-}
-
 .diagram-section {
   display: flex;
+  margin-top: 20px;
 }
 
 .income-container {

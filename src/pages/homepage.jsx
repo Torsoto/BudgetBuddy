@@ -9,7 +9,6 @@ const Homepage = () => {
     <div className="homepage">
       <Sidebar />
       <div className="content">
-        <h1>Home</h1>
         <div className="diagram-section">
           <div className="income-container">
             <a>income</a>
