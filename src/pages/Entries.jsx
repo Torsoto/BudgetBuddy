@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import EntryForm from "../components/Entryform";
+import EntriesTable from "../components/EntriesTable";
+import { auth, db } from '../../firebase/firestore.mjs';
+import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
 import "../styles/Entries.css";
 
 const Entries = () => {
@@ -15,33 +19,42 @@ const Entries = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch entries from the database or API
-      // const entries = await getFinancialEntriesFromDB();
-      const entries = [];
-      setFinancialEntries(entries);
+      if (!auth.currentUser) {
+        // User not authenticated, handle this case as needed
+        return;
+      }
+
+      const userUid = auth.currentUser.uid;
+
+      const entriesCollection = collection(db, 'users', userUid, 'entries');
+      const entriesSnapshot = await getDocs(entriesCollection);
+
+      const entriesData = entriesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setFinancialEntries(entriesData);
     };
 
     fetchData();
   }, []);
 
-  const handleAddEntry = (e) => {
+  const handleAddEntry = async (e) => {
     e.preventDefault();
 
-    /*if (!newEntry.party || !newEntry.time || !newEntry.amount) {
-      alert("Please fill in all fields.");
+    if (!auth.currentUser) {
+      // User not authenticated, handle this case as needed
       return;
     }
-    */
+
+    const userUid = auth.currentUser.uid;
 
     if (editingEntryIndex !== null) {
-      // If editing an entry, update the existing entry
-      const updatedEntries = [...financialEntries];
-      updatedEntries[editingEntryIndex] = newEntry;
-      setFinancialEntries(updatedEntries);
+      // If editing an entry, update the existing entry in Firestore
+      const entryRef = doc(db, 'users', userUid, 'entries', financialEntries[editingEntryIndex].id);
+      await updateDoc(entryRef, newEntry);
       setEditingEntryIndex(null);
     } else {
-      // If adding a new entry, add it to the list
-      setFinancialEntries((prevEntries) => [...prevEntries, newEntry]);
+      // If adding a new entry, add it to the user's entries in Firestore
+      const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), newEntry);
+      setFinancialEntries((prevEntries) => [...prevEntries, { ...newEntry, id: entryRef.id }]);
     }
 
     // Clear the form and close the modal
@@ -55,12 +68,22 @@ const Entries = () => {
     closePopup();
   };
 
-  const deleteEntry = (id) => {
+  const deleteEntry = async (id) => {
+    if (!auth.currentUser) {
+      // User not authenticated, handle this case as needed
+      return;
+    }
+
+    const userUid = auth.currentUser.uid;
+
     // Find the index of the entry with the given id
     const entryIndex = financialEntries.findIndex((entry) => entry.id === id);
 
-    // If the entry is found, remove it from the array
+    // If the entry is found, remove it from the user's entries in Firestore and the array
     if (entryIndex !== -1) {
+      const entryRef = doc(db, 'users', userUid, 'entries', id);
+      await deleteDoc(entryRef);
+
       const updatedEntries = [...financialEntries];
       updatedEntries.splice(entryIndex, 1);
       setFinancialEntries(updatedEntries);
@@ -70,6 +93,15 @@ const Entries = () => {
     closePopup();
   };
 
+  // Calculate total income and total expenses
+  const totalIncome = financialEntries
+    .filter((entry) => entry.category === "Income")
+    .reduce((total, entry) => total + parseFloat(entry.amount), 0);
+
+  const totalExpenses = financialEntries
+    .filter((entry) => entry.category !== "Income")
+    .reduce((total, entry) => total + parseFloat(entry.amount), 0);
+
   const handleEditEntry = (index) => {
     // Set the form fields with the data of the entry being edited
     const entryToEdit = financialEntries[index];
@@ -77,8 +109,6 @@ const Entries = () => {
     setEditingEntryIndex(index);
     openEntryCreation();
   };
-
-
 
   const openEntryCreation = () => {
     document.getElementById("overlay").style.display = "block";
@@ -96,76 +126,26 @@ const Entries = () => {
       <h1>Entries</h1>
       <div className="content">
         <div className="overlay" id="overlay"></div>
-        <div className="modal" id="modal">
-          <span className="close-btn" onClick={closePopup}>
-            &times;
-          </span>
-          <form onSubmit={handleAddEntry}>
-            <label htmlFor="party">Party:</label>
-            <input type="text" id="party" name="party" value={newEntry.party} onChange={(e) => setNewEntry({ ...newEntry, party: e.target.value })} />
-
-            <label htmlFor="description">Description:</label>
-            <input type="text" id="description" name="description" value={newEntry.description} onChange={(e) => setNewEntry({ ...newEntry, description: e.target.value })} />
-
-            <label htmlFor="time">Time:</label>
-            <input type="datetime-local" id="time" name="time" value={newEntry.time} onChange={(e) => setNewEntry({ ...newEntry, time: e.target.value })} />
-
-            <label htmlFor="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" value={newEntry.amount} onChange={(e) => setNewEntry({ ...newEntry, amount: e.target.value })} />
-
-            <label htmlFor="category">Category:</label>
-            <select id="category" name="category" value={newEntry.category} onChange={(e) => setNewEntry({ ...newEntry, category: e.target.value })}>
-              <option value="Food & Drinks">Food & Drinks</option>
-              <option value="Incomes">Incomes</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Groceries">Groceries</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Transportation">Transportation</option>
-              <option value="Healthcare">Healthcare</option>
-              <option value="Education">Education</option>
-              <option value="Shopping">Shopping</option>
-              <option value="Travel">Travel</option>
-              <option value="Housing">Housing</option>
-              {/* Add more categories as needed */}
-            </select>
-
-            <button type="button" onClick={closePopup}>
-              Cancel
-            </button>
-            <button type="submit">Add Entry</button>
-          </form>
-        </div>
-
+        <EntryForm
+          newEntry={newEntry}
+          handleAddEntry={handleAddEntry}
+          setNewEntry={setNewEntry}
+          closePopup={closePopup}
+        />
         <button onClick={openEntryCreation}>Add Entry</button>
-        <div className="entry-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Party</th>
-                <th>Description</th>
-                <th>Time</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {financialEntries.map((entry, index) => (
-                <tr key={index}>
-                  <td>{entry.party}</td>
-                  <td>{entry.description}</td>
-                  <td>{entry.time}</td>
-                  <td>{entry.amount} €</td>
-                  <td>{entry.category}</td>
-                  <td>
-                    <button onClick={() => handleEditEntry(index)}>Edit</button>
-                    <button onClick={() => deleteEntry(entry.id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {financialEntries.length > 0 ? (
+          <div className="entry-container">
+            <EntriesTable
+              financialEntries={financialEntries}
+              totalIncome={totalIncome}
+              totalExpenses={totalExpenses}
+              handleEditEntry={handleEditEntry}
+              deleteEntry={deleteEntry}
+            />
+          </div>
+        ) : (
+          <p>No entries to display.</p>
+        )}
       </div>
     </div>
   );

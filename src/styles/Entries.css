@@ -5,6 +5,11 @@
   align-items: center;
 }
 
+
+.entry-container td:nth-child(3) {
+  white-space: nowrap; /* Prevent line breaks */
+}
+
 .overlay {
   display: none;
   position: fixed;
@@ -12,7 +17,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal {
@@ -22,7 +27,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  background-color: #fff;
+  background-color: #f0f0f0; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -82,3 +87,28 @@
 .entry-container th {
   background-color: #f2f2f2;
 }
+
+.Balance-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  color: black;
+}
+
+.entries-table {
+  color: black;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.edit-button-table {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+.description-column {
+  max-height: 100px;
+  overflow: auto;
+}
+

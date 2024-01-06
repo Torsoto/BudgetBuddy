@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { auth } from '../../firebase/firestore.mjs';
 import '../styles/SignUp.css';
 import { useNavigate, Link } from 'react-router-dom';
 import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.png'
@@ -9,7 +11,6 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    const auth = getAuth();
 
     const handleEmailSignUp = async (event) => {
         event.preventDefault();
@@ -17,25 +18,23 @@ const SignUp = () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             console.log('Signed up user:', user);
-            navigate("/Home");
-        } catch (error) {
-            console.error('Error signing up:', error);
-        }
-    };
 
-    /*
-    const handleGoogleSignUp = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            console.log('Signed up user:', user);
+            // Create a collection for the user in Firestore
+            const db = getFirestore();
+            const userCollection = collection(db, 'users');
+            const userDocRef = await addDoc(userCollection, {
+                uid: user.uid,
+                email: user.email,
+                // You can add more user-related information if needed
+            });
+
+            console.log('User document added to Firestore:', userDocRef.id);
+
             navigate("/Home");
         } catch (error) {
             console.error('Error signing up:', error);
         }
     };
-    */
 
     return (
         <div className="signup-container">

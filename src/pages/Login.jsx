@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase/firestore.mjs';
+import { auth, db } from '../../firebase/firestore.mjs';
+import { collection, getDocs, where, query, addDoc } from 'firebase/firestore';
 import '../styles/login.css';
 import { useNavigate, Link } from 'react-router-dom';
 import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.png'
@@ -16,29 +17,34 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
-      console.log('Logged in user:', user); // <- Delete once done.
-      navigate("/Home");
-    } catch (error) {
-      console.error('Error signing in:', error);
-      setError(error.message);
-    }
-  };
+      console.log('Logged in user:', user);
 
-  /*
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signOut(auth);
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log('Logged in user:', user); // <- Delete once done.
+      // Check if the user has a collection in Firestore
+      const userCollectionQuery = query(collection(db, 'users'), where('uid', '==', user.uid));
+      const userCollectionSnapshot = await getDocs(userCollectionQuery);
+
+      if (userCollectionSnapshot.empty) {
+        console.log('User does not have a collection in Firestore');
+
+        // Create a collection for the user in Firestore
+        const userCollection = collection(db, 'users');
+        const userDocRef = await addDoc(userCollection, {
+          uid: user.uid,
+          email: user.email,
+          // You can add more user-related information if needed
+        });
+
+        console.log('User document added to Firestore:', userDocRef.id);
+      } else {
+        console.log('User has a collection in Firestore');
+      }
+
       navigate("/Home");
     } catch (error) {
       console.error('Error signing in:', error);
       setError(error.message);
     }
   };
-  */
 
   return (
     <div>
