@@ -1,39 +1,84 @@
-.entry {
-    width: 300px;
-    height: auto;
-    background-color: lightslategray;
-}
-
-.entry p {
-    color: black;
+.content {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  }
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+}
 
-  /* Styling for the modal */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-  /* Styling for the close button */
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-  }
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  color: black;
+  font-size: 23px;
+}
+
+.modal form {
+  display: flex;
+  z-index: 10;;
+  flex-direction: column;
+}
+
+.modal label {
+  margin-top: 10px;
+}
+
+.modal input,
+.modal select {
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.modal button {
+  margin-top: 10px;
+}
+
+.entry {
+  width: 100%;
+  background-color: rgb(159, 197, 233);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.entry button {
+  margin-top: 10px;
+}
+
+.entry-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.entry-container th,
+.entry-container td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.entry-container th {
+  background-color: #f2f2f2;
+}
