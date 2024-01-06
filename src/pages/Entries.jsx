@@ -3,6 +3,21 @@ import Sidebar from "../components/Sidebar";
 import "../styles/Entries.css";
 
 const Entries = () => {
+
+  function Entry({ entry }) {
+    return (
+      <div className="entry">
+        <h4>{entry.party}</h4>
+        <p>{entry.description}</p>
+        <p>{entry.time}</p>
+        <p>{entry.amount} €</p>
+        <p></p>
+        <button>Edit</button>
+        <button onClick={() => deleteEntry(entry.id)}>Delete</button>
+      </div>
+    );
+  }
+
   const [financialEntries, setFinancialEntries] = useState([]);
   const [newEntry, setNewEntry] = useState({
     party: "",
