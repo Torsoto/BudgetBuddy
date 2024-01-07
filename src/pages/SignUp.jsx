@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { auth } from '../../firebase/firestore.mjs';
+import { auth, db } from '../../firebase/firestore.mjs';
 import '../styles/SignUp.css';
 import { useNavigate, Link } from 'react-router-dom';
 import BudgetBuddyLogo from '../assets/BudgetBuddyLogo.png'
@@ -20,7 +20,6 @@ const SignUp = () => {
             console.log('Signed up user:', user);
 
             // Create a collection for the user in Firestore
-            const db = getFirestore();
             const userCollection = collection(db, 'users');
             const userDocRef = await addDoc(userCollection, {
                 uid: user.uid,
