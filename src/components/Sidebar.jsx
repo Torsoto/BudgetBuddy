@@ -1,15 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Sidebar.css'; // Assuming you have a CSS file for styling the sidebar
-import Home from "../assets/Home.svg"
-import Entries from "../assets/Entries.svg"
-import BudgetGoals from "../assets/BudgetGoals.png"
-import Settings from "../assets/Settings.svg"
 
 
-const Sidebar = () => {
+const Sidebar = ({ className }) => {
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${className}`}>
       <ul>
         <li>
           <Link to="/Home">Home</Link>

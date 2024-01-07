@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const process = require('process');
 const url = require('url');
 const path = require('path');
@@ -8,9 +8,14 @@ const createWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 1366,
         height: 768,
+        frame: false,
+        minWidth: 940,
+        minHeight: 768,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
+            devTools: true,
+            preload: path.join(__dirname, 'preload.cjs')
         },
     })
 
@@ -18,8 +23,21 @@ const createWindow = () => {
     //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) // <- Uncomment for build version.
 
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    ipcMain.on('minimizeApp', () => {
+        mainWindow.minimize();
+    });
+
+    ipcMain.on('maximizeApp', () => {
+        if (!mainWindow.isMaximized()) {
+            mainWindow.maximize();
+        } else {
+            mainWindow.unmaximize();
+        }
+    });
+
+    ipcMain.on('closeApp', () => {
+        mainWindow.close();
+    });
 }
 
 // This method will be called when Electron has finished

@@ -1,8 +1,9 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
   color: rgba(255, 255, 255, 0.87);
   background-color: #fafafa;
 
@@ -10,7 +11,39 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family:Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+  color: black;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  border: 1px sold black;
+  margin: auto;
+}
+
+.mainContainer > .topbar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+  border-bottom: 2px solid rgb(61, 61, 61);
+  background-color: white;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 p {
@@ -41,10 +74,6 @@ a:hover {
   color: black;
 }
 
-body {
-  margin: auto;
-  display: flex;
-}
 
 h1 {
   line-height: 1.1;
@@ -54,7 +83,7 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   outline: none;
-  padding: 0.5em 1em;
+  padding: 0.3em 1em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;

@@ -1,6 +1,5 @@
 .goalsContainer {
   display: flex;
-  background-color: rgb(172, 172, 172);
   flex-direction: column;
   border-radius: 10px;
   color: black;

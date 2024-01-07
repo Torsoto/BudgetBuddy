@@ -132,7 +132,6 @@ const Entries = () => {
 
   return (
     <div className="Entries">
-      <Sidebar />
       <h1>Entries</h1>
       <div className="content">
         <div className="overlay" id="overlay"></div>

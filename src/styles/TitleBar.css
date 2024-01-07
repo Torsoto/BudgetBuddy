@@ -1,0 +1,80 @@
+.topbar > .titlebar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    z-index: 20;
+    -webkit-app-region: drag;
+}
+
+.title {
+    font-size: 18px;
+    color: black;
+}
+
+.titlebar > .toggleButton {
+    width: 45px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-image: url(../assets/toggleButton.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.2;
+    cursor: pointer;
+    margin-right: 10px;
+    -webkit-app-region: no-drag;
+}
+
+.titlebar > .toggleButton:active {
+    scale: 0.9;
+}
+
+.titlebar > .title {
+    margin-left: 10px;
+    font-weight: 200;
+    font-size: larger;
+    margin-top: 5px;
+    padding-bottom: 5px;
+}
+
+.titleBarBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+}
+
+.titleBarBtns > .topBtn {
+    padding: 1em 1em;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.2;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.titleBarBtns > .topBtn:active {
+    scale: 0.9;
+}
+
+.titleBarBtns > .minimizeBtn {
+    background-image: url(../assets/minimize.png);
+}
+
+.titleBarBtns > .maximizeBtn {
+    background-image: url(../assets/maximize.png);
+}
+
+.titleBarBtns > .closeBtn {
+    background-image: url(../assets/close.png);
+}
+
+
+

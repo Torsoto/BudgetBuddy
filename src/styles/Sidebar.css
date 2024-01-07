@@ -1,12 +1,17 @@
 .sidebar {
   justify-content: space-between;
     position: fixed;
-    display: inline-block;
-    top: 0;
+    top: 42px;
     left: 0;
     height: 100%;
-    width: auto;
     background-color: white;
+    z-index: 0;
+    transition: transform 0.3s ease-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
   }
   
   .sidebar ul {
@@ -17,7 +22,7 @@
   
   .sidebar li {
     display: flex;
-    font-size: 20px;
+    font-size: 18px;
     padding: 15px;
     text-align: left;
   }
@@ -26,10 +31,6 @@
     position: absolute;
     top: 0;
     left: 0;
-  }
-  
-  .sidebar {
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
   
   .sidebar a {

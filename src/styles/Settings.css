@@ -9,12 +9,10 @@
 
 .profile-container {
     height: 500px;
-    width: 75%;
     margin-top: 30px;
     margin-bottom: 30px;
     display: flex;
     border-radius: 10px;
-    background-color: rgb(143, 143, 143);
     flex-direction: column;
     justify-content: center;
   }

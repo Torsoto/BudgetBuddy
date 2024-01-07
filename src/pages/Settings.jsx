@@ -20,11 +20,10 @@ const Settings = () => {
     }
   };
 
-  const handleChangePassword = () => {};
+  const handleChangePassword = () => { };
 
   return (
     <div className="Settings">
-      <Sidebar></Sidebar>
       <div className="content">
         <h1>Settings</h1>
         <div className="profile-container">

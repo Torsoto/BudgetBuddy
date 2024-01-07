@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
 import { Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
 import { collection, query, getDocs } from "firebase/firestore";
@@ -10,6 +9,8 @@ const Homepage = () => {
   const [incomeData, setIncomeData] = useState([]);
   const [outcomeData, setOutcomeData] = useState([]);
   const [outcomeCategories, setOutcomeCategories] = useState([]);
+  const [incomeColors, setIncomeColors] = useState([]);
+  const [outcomeColors, setOutcomeColors] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +35,7 @@ const Homepage = () => {
           const entryData = doc.data();
           if (entryData.type === "Income") {
             incomeEntries.push({
-              label: entryData.party,
+              label: entryData.category,
               value: entryData.amount,
             });
           } else {
@@ -46,6 +47,9 @@ const Homepage = () => {
         setIncomeData(incomeEntries);
         setOutcomeData(outcomeEntries);
         setOutcomeCategories(Array.from(uniqueOutcomeCategories));
+
+        setIncomeColors(generateRandomColors(incomeEntries.length));
+        setOutcomeColors(generateRandomColors(uniqueOutcomeCategories.size));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -68,7 +72,6 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <h1>Dashboard</h1>
-      <Sidebar />
 
       <div className="chart-container">
         {incomeData.length > 0 ? (
@@ -80,7 +83,7 @@ const Homepage = () => {
                   {
                     label: "Income Dataset",
                     data: incomeData.map((entry) => entry.value),
-                    backgroundColor: generateRandomColors(incomeData.length),
+                    backgroundColor: incomeColors,
                   },
                 ],
               }}
@@ -100,9 +103,7 @@ const Homepage = () => {
                   {
                     label: "Expenses Dataset",
                     data: outcomeData,
-                    backgroundColor: generateRandomColors(
-                      outcomeCategories.length
-                    ),
+                    backgroundColor: outcomeColors
                   },
                 ],
               }}
