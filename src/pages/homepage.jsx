@@ -32,7 +32,7 @@ const Homepage = () => {
 
         userEntriesSnapshot.forEach((doc) => {
           const entryData = doc.data();
-          if (entryData.category === "Income") {
+          if (entryData.type === "Income") {
             incomeEntries.push({
               label: entryData.party,
               value: entryData.amount,
@@ -98,7 +98,7 @@ const Homepage = () => {
                 labels: outcomeCategories,
                 datasets: [
                   {
-                    label: "Outcome Dataset",
+                    label: "Expenses Dataset",
                     data: outcomeData,
                     backgroundColor: generateRandomColors(
                       outcomeCategories.length
@@ -107,7 +107,7 @@ const Homepage = () => {
                 ],
               }}
             />
-            <p>Outcome</p>
+            <p>Expenses</p>
           </div>
         ) : (
           <p className="no-outcome-text">No outcome data to display.</p>

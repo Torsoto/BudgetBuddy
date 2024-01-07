@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
-import EntryForm from "../components/Entryform";
+import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
 import { auth, db } from '../../firebase/firestore.mjs';
 import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
@@ -13,6 +13,7 @@ const Entries = () => {
     description: "",
     time: "",
     amount: "",
+    type: "",
     category: "",
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
@@ -46,14 +47,19 @@ const Entries = () => {
 
     const userUid = auth.currentUser.uid;
 
+    console.log("Adding entry:", newEntry);
+
     if (editingEntryIndex !== null) {
       // If editing an entry, update the existing entry in Firestore
       const entryRef = doc(db, 'users', userUid, 'entries', financialEntries[editingEntryIndex].id);
-      await updateDoc(entryRef, newEntry);
+      await updateDoc(entryRef, { ...newEntry, type: newEntry.type || "Expense" });
       setEditingEntryIndex(null);
     } else {
       // If adding a new entry, add it to the user's entries in Firestore
-      const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), newEntry);
+      const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), {
+        ...newEntry,
+        type: newEntry.type || "Expense",
+      });
       setFinancialEntries((prevEntries) => [...prevEntries, { ...newEntry, id: entryRef.id }]);
     }
 
@@ -63,7 +69,8 @@ const Entries = () => {
       description: "",
       time: "",
       amount: "",
-      category: "", // Set default category
+      type: "",
+      category: "",
     });
     closePopup();
   };
@@ -93,13 +100,12 @@ const Entries = () => {
     closePopup();
   };
 
-  // Calculate total income and total expenses
   const totalIncome = financialEntries
-    .filter((entry) => entry.category === "Income")
+    .filter((entry) => entry.type === "Income")
     .reduce((total, entry) => total + parseFloat(entry.amount), 0);
 
   const totalExpenses = financialEntries
-    .filter((entry) => entry.category !== "Income")
+    .filter((entry) => entry.type === "Expense")
     .reduce((total, entry) => total + parseFloat(entry.amount), 0);
 
   const handleEditEntry = async (index) => {

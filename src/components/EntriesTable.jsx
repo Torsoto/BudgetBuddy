@@ -6,6 +6,7 @@ const formatTime = (time) => {
 };
 
 const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEditEntry, deleteEntry }) => {
+    console.log("Financial Entries:", financialEntries);
     return (
         <div className="entry-container">
             <div className="Balance-text">
@@ -20,6 +21,7 @@ const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEdit
                         <th>Description</th>
                         <th>Time</th>
                         <th>Amount</th>
+                        <th>Type</th>
                         <th>Category</th>
                         <th>Actions</th>
                     </tr>
@@ -31,6 +33,7 @@ const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEdit
                             <td className="description-column">{entry.description}</td>
                             <td>{formatTime(entry.time)}</td>
                             <td>{entry.amount} €</td>
+                            <td>{entry.type}</td>
                             <td>{entry.category}</td>
                             <td>
                                 <button className="edit-button-table" onClick={() => handleEditEntry(index)}>Edit</button>

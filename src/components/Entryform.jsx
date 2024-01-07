@@ -1,6 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 const EntryForm = ({ newEntry, handleAddEntry, setNewEntry, closePopup }) => {
+    const [entryType, setEntryType] = useState('Expense');
+
+    const handleEntryTypeChange = (type) => {
+        setEntryType(type);
+        setNewEntry({ ...newEntry, type, category: '' }); // Reset category when entry type changes
+    };
+
+    const getCategories = () => {
+        // Define categories based on entry type
+        if (entryType === 'Income') {
+            return ['Select Category', 'Salary', 'Bonus', 'Other Income'];
+        } else if (entryType === 'Expense') {
+            return [
+                'Select Category',
+                'Food & Drinks',
+                'Entertainment',
+                'Groceries',
+                'Utilities',
+                'Transportation',
+                'Healthcare',
+                'Education',
+                'Shopping',
+                'Travel',
+                'Housing',
+                'Other Expense',
+            ];
+        }
+    };
+
     return (
         <div className="modal" id="modal">
             <span className="close-btn" onClick={closePopup}>
@@ -42,7 +71,28 @@ const EntryForm = ({ newEntry, handleAddEntry, setNewEntry, closePopup }) => {
                     value={newEntry.amount}
                     onChange={(e) => setNewEntry({ ...newEntry, amount: e.target.value })}
                 />
+                <label htmlFor="entryType">Entry Type:</label>
+                <div>
+                    <input
+                        type="radio"
+                        id="income"
+                        name="entryType"
+                        value="Income"
+                        checked={entryType === 'Income'}
+                        onChange={() => handleEntryTypeChange('Income')}
+                    />
+                    <label htmlFor="income">Income</label>
 
+                    <input
+                        type="radio"
+                        id="expense"
+                        name="entryType"
+                        value="Expense"
+                        checked={entryType === 'Expense'}
+                        onChange={() => handleEntryTypeChange('Expense')}
+                    />
+                    <label htmlFor="expense">Expense</label>
+                </div>
                 <label htmlFor="category">Category:</label>
                 <select
                     id="category"
@@ -50,18 +100,11 @@ const EntryForm = ({ newEntry, handleAddEntry, setNewEntry, closePopup }) => {
                     value={newEntry.category}
                     onChange={(e) => setNewEntry({ ...newEntry, category: e.target.value })}
                 >
-                    <option value="">Select Category</option>
-                    <option value="Food & Drinks">Food & Drinks</option>
-                    <option value="Income">Incomes</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Healthcare">Healthcare</option>
-                    <option value="Education">Education</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Housing">Housing</option>
+                    {getCategories().map((category, index) => (
+                        <option key={index} value={category}>
+                            {category}
+                        </option>
+                    ))}
                 </select>
 
                 <button type="button" onClick={closePopup}>
@@ -73,4 +116,4 @@ const EntryForm = ({ newEntry, handleAddEntry, setNewEntry, closePopup }) => {
     );
 };
 
-export default EntryForm
+export default EntryForm;
