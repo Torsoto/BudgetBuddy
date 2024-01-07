@@ -114,3 +114,13 @@
   overflow: auto;
 }
 
+.no-income-text {
+  margin-right: 10px;
+  font-size: larger;
+}
+
+.no-outcome-text {
+  margin-left: 10px;
+  font-size: larger;
+}
+

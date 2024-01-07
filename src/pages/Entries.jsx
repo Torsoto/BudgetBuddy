@@ -17,24 +17,24 @@ const Entries = () => {
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
 
+  const fetchData = async () => {
+    if (!auth.currentUser) {
+      // User not authenticated, handle this case as needed
+      return;
+    }
+
+    const userUid = auth.currentUser.uid;
+
+    const entriesCollection = collection(db, 'users', userUid, 'entries');
+    const entriesSnapshot = await getDocs(entriesCollection);
+
+    const entriesData = entriesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setFinancialEntries(entriesData);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (!auth.currentUser) {
-        // User not authenticated, handle this case as needed
-        return;
-      }
-
-      const userUid = auth.currentUser.uid;
-
-      const entriesCollection = collection(db, 'users', userUid, 'entries');
-      const entriesSnapshot = await getDocs(entriesCollection);
-
-      const entriesData = entriesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setFinancialEntries(entriesData);
-    };
-
     fetchData();
-  }, []);
+  }, [editingEntryIndex]);
 
   const handleAddEntry = async (e) => {
     e.preventDefault();
@@ -102,11 +102,15 @@ const Entries = () => {
     .filter((entry) => entry.category !== "Income")
     .reduce((total, entry) => total + parseFloat(entry.amount), 0);
 
-  const handleEditEntry = (index) => {
+  const handleEditEntry = async (index) => {
     // Set the form fields with the data of the entry being edited
     const entryToEdit = financialEntries[index];
     setNewEntry(entryToEdit);
     setEditingEntryIndex(index);
+
+    // Wait for fetchData to complete before opening the entry creation
+    await fetchData();
+
     openEntryCreation();
   };
 
