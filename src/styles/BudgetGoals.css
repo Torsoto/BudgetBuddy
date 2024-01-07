@@ -1,12 +1,12 @@
 .goalsContainer {
   display: flex;
-  background-color: rgb(97, 97, 97);
+  background-color: rgb(172, 172, 172);
   flex-direction: column;
   border-radius: 10px;
   color: black;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  margin-top: 100px;
   width: 75%;
   padding: 0 1rem;
   margin-top: 10px;

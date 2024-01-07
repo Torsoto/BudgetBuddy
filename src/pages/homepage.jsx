@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import { Doughnut } from "react-chartjs-2";
-import 'chart.js/auto';
+import "chart.js/auto";
 import { collection, query, getDocs } from "firebase/firestore";
-import { auth, db } from '../../firebase/firestore.mjs';
+import { auth, db } from "../../firebase/firestore.mjs";
 import "../styles/Homepage.css";
 
 const Homepage = () => {
@@ -16,7 +16,12 @@ const Homepage = () => {
       try {
         // Fetch user-specific entries from Firestore
         const user = auth.currentUser;
-        const userEntriesCollection = collection(db, "users", user.uid, "entries");
+        const userEntriesCollection = collection(
+          db,
+          "users",
+          user.uid,
+          "entries"
+        );
         const userEntriesQuery = query(userEntriesCollection);
         const userEntriesSnapshot = await getDocs(userEntriesQuery);
 
@@ -53,7 +58,8 @@ const Homepage = () => {
   const generateRandomColors = (count) => {
     const colors = [];
     for (let i = 0; i < count; i++) {
-      const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      const randomColor =
+        "#" + Math.floor(Math.random() * 16777215).toString(16);
       colors.push(randomColor);
     }
     return colors;
@@ -61,47 +67,52 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
+      <h1>Dashboard</h1>
       <Sidebar />
 
-      {incomeData.length > 0 ? (
-        <div>
-          <Doughnut
-            data={{
-              labels: incomeData.map((entry) => entry.label),
-              datasets: [
-                {
-                  label: "Income Dataset",
-                  data: incomeData.map((entry) => entry.value),
-                  backgroundColor: generateRandomColors(incomeData.length),
-                },
-              ],
-            }}
-          />
-          <p>Income</p>
-        </div>
-      ) : (
-        <p className="no-income-text">No income data to display.</p>
-      )}
+      <div className="chart-container">
+        {incomeData.length > 0 ? (
+          <div>
+            <Doughnut
+              data={{
+                labels: incomeData.map((entry) => entry.label),
+                datasets: [
+                  {
+                    label: "Income Dataset",
+                    data: incomeData.map((entry) => entry.value),
+                    backgroundColor: generateRandomColors(incomeData.length),
+                  },
+                ],
+              }}
+            />
+            <p>Income</p>
+          </div>
+        ) : (
+          <p className="no-income-text">No income data to display.</p>
+        )}
 
-      {outcomeCategories.length > 0 ? (
-        <div>
-          <Doughnut
-            data={{
-              labels: outcomeCategories,
-              datasets: [
-                {
-                  label: "Outcome Dataset",
-                  data: outcomeData,
-                  backgroundColor: generateRandomColors(outcomeCategories.length),
-                },
-              ],
-            }}
-          />
-          <p>Outcome</p>
-        </div>
-      ) : (
-        <p className="no-outcome-text">No outcome data to display.</p>
-      )}
+        {outcomeCategories.length > 0 ? (
+          <div>
+            <Doughnut
+              data={{
+                labels: outcomeCategories,
+                datasets: [
+                  {
+                    label: "Outcome Dataset",
+                    data: outcomeData,
+                    backgroundColor: generateRandomColors(
+                      outcomeCategories.length
+                    ),
+                  },
+                ],
+              }}
+            />
+            <p>Outcome</p>
+          </div>
+        ) : (
+          <p className="no-outcome-text">No outcome data to display.</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -3,3 +3,12 @@
     margin: auto;
     padding: 20px;
 }
+
+.chart-container {
+ display: flex; 
+ justify-content: space-around; 
+ margin-top: 100px;
+ margin-left: -200px;
+ background-color: rgb(196, 196, 196);
+ border-radius: 10px;
+}
