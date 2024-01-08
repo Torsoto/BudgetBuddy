@@ -37,7 +37,7 @@ const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEdit
                             <td>{entry.category}</td>
                             <td>
                                 <button className="edit-button-table" onClick={() => handleEditEntry(index)}>Edit</button>
-                                <button onClick={() => deleteEntry(entry.id)}>Delete</button>
+                                <button className="delete-button-table" onClick={() => deleteEntry(entry.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

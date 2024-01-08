@@ -1,13 +1,10 @@
 .goalsContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   border-radius: 10px;
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 800px; /* Adjust as needed */
-  height: 600px; /* Adjust as needed */
+  min-width: 500px;
   margin: auto;
   margin-top: 40px;
 }

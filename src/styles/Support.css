@@ -6,8 +6,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 60px;
     border-radius: 10px;
-    margin-left: 400px;
-    margin-right: 400px;
+    margin: auto;
+    width: 500px;
     align-items: center;
     height: 350px;  
   }

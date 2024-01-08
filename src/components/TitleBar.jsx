@@ -25,7 +25,7 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
   }, []);
 
   const handleProfileClick = () => {
-    console.log("Profile clicked"); 
+    console.log("Profile clicked");
     navigate("/Settings");
   };
 
@@ -37,12 +37,12 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
           className="toggleButton"
           onClick={onToggleSidebar}
         ></button>
-        <img id="bb-logo" src={BudgetBuddyLogo} alt="Budget Buddy Logo" />
         <div className="title">BudgetBuddy</div>
         <Switch
           checked={darkMode}
           onChange={() => setDarkMode(!darkMode)}
           className="darkModeSwitch"
+
         />{" "}
         {/* Verwenden Sie die Switch-Komponente */}
         <p>Change Theme</p>

@@ -94,7 +94,7 @@ const BudgetGoals = () => {
       <div className="content">
         <h1>Budget Goals</h1>
         <div>
-          <button onClick={showAddGoalPopup}>Add Budget Goal +</button>
+          <button onClick={showAddGoalPopup}>Addl</button>
           {showPopup && (
             <div className="popup">
               <input
@@ -116,23 +116,23 @@ const BudgetGoals = () => {
           )}
           <ul className="goalsContainer">
             {budgetGoals.map((goal) => (
-            <li key={goal.id}>
-              <span className="goal-text">{goal.goal}</span>
-              <div className="edit-delete-buttons">
-                <button
-                  className="edit-button"
-                  onClick={() => handleEditGoal(goal.id)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteGoal(goal.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
+              <li key={goal.id}>
+                <span className="goal-text">{goal.goal}</span>
+                <div className="edit-delete-buttons">
+                  <button
+                    className="edit-button"
+                    onClick={() => handleEditGoal(goal.id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDeleteGoal(goal.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
             ))}
           </ul>
         </div>

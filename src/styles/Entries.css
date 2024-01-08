@@ -109,6 +109,10 @@
   margin-bottom: 5px;
 }
 
+.delete-button-table{
+  color: red;
+}
+
 .description-column {
   max-height: 100px;
   overflow: auto;

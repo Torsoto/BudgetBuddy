@@ -1,63 +1,52 @@
 .homepage {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
-  border: 1px sold black;
+  width: 70%;
   margin: auto;
-}
-
-.homepage > .topbar {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 40px;
-  border-bottom: 3px solid black;
-  background-color: white;
+  padding: 20px;
 }
 
 .top-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px;
-  width: 100%;
-  height: 100%;
+  margin-top: 20px;
+}
+
+.chart-container, .budgetgoal-container, .bottom-container {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 10px auto;
+  padding: 20px;
 }
 
 .chart-container {
   display: flex;
   justify-content: space-around;
-  margin-top: 100px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  border-radius: 10px;
-  width: 50%;
-  float: left;
-  margin-top: 20px;;
-  margin-left: 170px;
+  width: 60%; /* Adjust as needed */
 }
 
 .budgetgoal-container {
-  justify-content: space-between;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  float: right;
-  margin-top: 20px;
-  margin-right: 50px;
-  width: 25%;
+  width: 25%; /* Adjust as needed */
 }
 
 .bottom-container {
-    justify-content: space-between;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    float: right;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 20px;
+  width: 92.5%;
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+  .homepage {
+    width: 90%;
+  }
+
+  .chart-container, .budgetgoal-container, .bottom-container {
     width: 100%;
-    margin-top: 20px;
-    width: 80%;
-    margin-left: 180px;
+  }
 }
