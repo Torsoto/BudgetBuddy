@@ -8,6 +8,7 @@ import Entries from './pages/Entries.jsx';
 import BudgetGoals from './pages/BudgetGoals.jsx';
 import TitleBar from "./components/TitleBar.jsx";
 import SideBar from "./components/Sidebar.jsx";
+import Support from "./pages/Support.jsx";
 
 function MainApp() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function MainApp() {
         <Route path="/Settings" element={<Settings />} />
         <Route path="/Entries" element={<Entries />} />
         <Route path="/BudgetGoals" element={<BudgetGoals />} />
+        <Route path="/Support" element={<Support />} />
       </Routes>
     </div>
   )

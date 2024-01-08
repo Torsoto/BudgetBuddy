@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { Link } from "react-router-dom";
 import "../styles/Settings.css";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { auth } from '../../firebase/firestore.mjs';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { auth } from "../../firebase/firestore.mjs";
 
 const Settings = () => {
   const [image, setImage] = useState(null);
@@ -20,7 +25,7 @@ const Settings = () => {
     }
   };
 
-  const handleChangePassword = () => { };
+  const handleChangePassword = () => {};
 
   return (
     <div className="Settings">
@@ -38,7 +43,12 @@ const Settings = () => {
           </label>
           {image && <img src={image} alt="Profile" className="profile-image" />}{" "}
           <label>Email: {email}</label>
-          <button onClick={handleChangePassword}>Change Password</button>
+          <button
+            className="change-password-button"
+            onClick={handleChangePassword}
+          >
+            Change Password
+          </button>
         </div>
         <Link to="/">
           <button>Log Out</button>
