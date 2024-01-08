@@ -8,12 +8,11 @@
   }
 
 .profile-container {
-    height: 500px;
+    height: 300px;
     margin-top: 30px;
     margin-bottom: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     display: flex;
-    width: 60%;	
     border-radius: 10px;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +21,6 @@
 
   .profile-container > .change-password-button {
     margin-top: 20px;
-    width: 50%;
     height: 40px;
     border: none;
     border-radius: 5px;

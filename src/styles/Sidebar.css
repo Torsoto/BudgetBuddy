@@ -1,5 +1,4 @@
 .sidebar {
-  justify-content: space-between;
     position: fixed;
     top: 42px;
     left: 0;
@@ -22,8 +21,8 @@
   
   .sidebar li {
     display: flex;
-    font-size: 18px;
-    padding: 15px;
+    font-size: 21px;
+    padding: 10px;
     text-align: left;
   }
 
@@ -40,5 +39,6 @@
 
   .sidebar-icon {
     margin-right: 10px;
+    margin-top: 6px;
   }
 
