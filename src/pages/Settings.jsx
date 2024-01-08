@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
 import { Link } from "react-router-dom";
 import "../styles/Settings.css";
 import {
@@ -33,7 +32,7 @@ const Settings = () => {
     }
   };
 
-  const handleChangePassword = () => {};
+  const handleChangePassword = () => { };
 
   return (
     <div className="Settings">
