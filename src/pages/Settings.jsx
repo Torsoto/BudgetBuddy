@@ -9,10 +9,17 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { auth } from "../../firebase/firestore.mjs";
+import { useContext, useEffect } from "react";
+import { ProfileImageContext } from "../context/ProfileImageContext";
 
 const Settings = () => {
-  const [image, setImage] = useState(null);
   const [email, setEmail] = useState(null);
+  const { profileImage, setProfileImage } = useContext(ProfileImageContext);
+  const [image, setImage] = useState(profileImage); // Initialisieren mit dem globalen Profilbild
+
+  useEffect(() => {
+    setImage(profileImage); // Aktualisieren, wenn sich das globale Profilbild ändert
+  }, [profileImage]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -20,6 +27,7 @@ const Settings = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
+        setProfileImage(reader.result);
       };
       reader.readAsDataURL(file);
     }

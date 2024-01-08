@@ -11,6 +11,7 @@ const Homepage = () => {
   const [outcomeCategories, setOutcomeCategories] = useState([]);
   const [incomeColors, setIncomeColors] = useState([]);
   const [outcomeColors, setOutcomeColors] = useState([]);
+  const [budgetGoals, setBudgetGoals] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,8 +51,23 @@ const Homepage = () => {
 
         setIncomeColors(generateRandomColors(incomeEntries.length));
         setOutcomeColors(generateRandomColors(uniqueOutcomeCategories.size));
+        await fetchBudgetGoals();
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+    };
+
+    const fetchBudgetGoals = async () => {
+      if (auth.currentUser) {
+        const goalsCollection = collection(
+          db,
+          "users",
+          auth.currentUser.uid,
+          "goals"
+        );
+        const goalsSnapshot = await getDocs(goalsCollection);
+        const goalsData = goalsSnapshot.docs.map((doc) => doc.data().goal);
+        setBudgetGoals(goalsData);
       }
     };
 
@@ -72,47 +88,61 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <h1>Dashboard</h1>
+      <div className="top-container">
+        <div className="chart-container">
+          {incomeData.length > 0 ? (
+            <div>
+              <Doughnut
+                data={{
+                  labels: incomeData.map((entry) => entry.label),
+                  datasets: [
+                    {
+                      label: "Income Dataset",
+                      data: incomeData.map((entry) => entry.value),
+                      backgroundColor: incomeColors,
+                    },
+                  ],
+                }}
+              />
+              <p>Income</p>
+            </div>
+          ) : (
+            <p className="no-income-text">No income data to display.</p>
+          )}
 
-      <div className="chart-container">
-        {incomeData.length > 0 ? (
-          <div>
-            <Doughnut
-              data={{
-                labels: incomeData.map((entry) => entry.label),
-                datasets: [
-                  {
-                    label: "Income Dataset",
-                    data: incomeData.map((entry) => entry.value),
-                    backgroundColor: incomeColors,
-                  },
-                ],
-              }}
-            />
-            <p>Income</p>
-          </div>
-        ) : (
-          <p className="no-income-text">No income data to display.</p>
-        )}
-
-        {outcomeCategories.length > 0 ? (
-          <div>
-            <Doughnut
-              data={{
-                labels: outcomeCategories,
-                datasets: [
-                  {
-                    label: "Expenses Dataset",
-                    data: outcomeData,
-                    backgroundColor: outcomeColors
-                  },
-                ],
-              }}
-            />
-            <p>Expenses</p>
-          </div>
-        ) : (
-          <p className="no-outcome-text">No outcome data to display.</p>
-        )}
+          {outcomeCategories.length > 0 ? (
+            <div>
+              <Doughnut
+                data={{
+                  labels: outcomeCategories,
+                  datasets: [
+                    {
+                      label: "Expenses Dataset",
+                      data: outcomeData,
+                      backgroundColor: outcomeColors,
+                    },
+                  ],
+                }}
+              />
+              <p>Expenses</p>
+            </div>
+          ) : (
+            <p className="no-outcome-text">No outcome data to display.</p>
+          )}
+        </div>
+        <div className="budgetgoal-container">
+          <p>Budget Goals</p>
+          <ul>
+            {budgetGoals.map((goal, index) => (
+              <li style={{ color: "black" }} key={index}>
+                {goal}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="bottom-container">
+        <p>Hey</p>
       </div>
     </div>
   );

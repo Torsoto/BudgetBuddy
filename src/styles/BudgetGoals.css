@@ -1,14 +1,44 @@
 .goalsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
-  background-color: rgb(255, 255, 255);
   color: black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 800px; /* Adjust as needed */
+  height: 600px; /* Adjust as needed */
+  margin: auto;
+  margin-top: 40px;
+}
+
+.goalsContainer li {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  margin-top: 100px;
-  width: 75%;
-  padding: 0 1rem;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Fügt eine Linie zwischen den Einträgen hinzu */
+}
+
+.goalsContainer li:last-child {
+  border-bottom: none;
+}
+
+.goal-text {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 10px; /* Abstand zwischen Text und Buttons */
+}
+
+.edit-delete-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-delete-buttons button {
+  margin-left: 5px; /* Abstand zwischen den Buttons */
+}
+
+.edit-delete-buttons button:last-child {
+  color: red;/* Entfernt den Abstand zwischen dem letzten Button und dem Rand */
 }
