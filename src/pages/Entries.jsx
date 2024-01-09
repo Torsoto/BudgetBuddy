@@ -49,7 +49,7 @@ const Entries = () => {
     if (editingEntryIndex !== null) {
       // If editing an entry, update the existing entry in Firestore
       const entryRef = doc(db, 'users', userUid, 'entries', financialEntries[editingEntryIndex].id);
-      await updateDoc(entryRef, { ...newEntry, type: newEntry.type || "Expense" });
+      await updateDoc(entryRef, { ...newEntry, type: financialEntries[editingEntryIndex].type });
       setEditingEntryIndex(null);
     } else {
       // If adding a new entry, add it to the user's entries in Firestore
