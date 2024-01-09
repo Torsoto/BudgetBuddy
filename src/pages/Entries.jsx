@@ -39,37 +39,57 @@ const Entries = () => {
   const handleAddEntry = async (e) => {
     e.preventDefault();
 
-    if (!auth.currentUser) {
-      // User not authenticated, handle this case as needed
-      return;
-    }
+    try {
+      if (!auth.currentUser) {
+        // User not authenticated, handle this case as needed
+        return;
+      }
 
-    const userUid = auth.currentUser.uid;
+      const userUid = auth.currentUser.uid;
 
-    if (editingEntryIndex !== null) {
-      // If editing an entry, update the existing entry in Firestore
-      const entryRef = doc(db, 'users', userUid, 'entries', financialEntries[editingEntryIndex].id);
-      await updateDoc(entryRef, { ...newEntry, type: financialEntries[editingEntryIndex].type });
-      setEditingEntryIndex(null);
-    } else {
-      // If adding a new entry, add it to the user's entries in Firestore
-      const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), {
-        ...newEntry,
-        type: newEntry.type || "Expense",
+      if (editingEntryIndex !== null) {
+        // If editing an entry, update the existing entry in Firestore
+        const entryId = financialEntries[editingEntryIndex]?.id;
+
+        if (!entryId) {
+          console.error("No entry ID found for editing.");
+          return;
+        }
+
+        console.log("Updating entry with ID:", entryId);
+
+        const entryRef = doc(db, 'users', userUid, 'entries', entryId);
+        await updateDoc(entryRef, { ...newEntry, type: financialEntries[editingEntryIndex].type });
+        setEditingEntryIndex(null);
+      } else {
+        // If adding a new entry, add it to the user's entries in Firestore
+        console.log("Adding a new entry:", newEntry);
+
+        const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), {
+          ...newEntry,
+          type: newEntry.type || "Expense",
+        });
+
+        setFinancialEntries((prevEntries) => [...prevEntries, { ...newEntry, id: entryRef.id }]);
+      }
+
+      // Clear the form and close the modal
+      setNewEntry({
+        party: "",
+        description: "",
+        time: "",
+        amount: "",
+        type: "",
+        category: "",
       });
-      setFinancialEntries((prevEntries) => [...prevEntries, { ...newEntry, id: entryRef.id }]);
-    }
 
-    // Clear the form and close the modal
-    setNewEntry({
-      party: "",
-      description: "",
-      time: "",
-      amount: "",
-      type: "",
-      category: "",
-    });
-    closePopup();
+      // Fetch updated data from Firestore
+      await fetchData();
+
+      closePopup();
+    } catch (error) {
+      console.error("Error adding/editing entry:", error);
+    }
   };
 
   const deleteEntry = async (id) => {
@@ -108,7 +128,14 @@ const Entries = () => {
   const handleEditEntry = async (index) => {
     // Set the form fields with the data of the entry being edited
     const entryToEdit = financialEntries[index];
-    setNewEntry(entryToEdit);
+    setNewEntry({
+      ...entryToEdit,
+      type: entryToEdit.type, // Set a default type if not provided
+      category: entryToEdit.category, // Add default category handling
+    });
+
+    console.log("Editing entry:", entryToEdit)
+
     setEditingEntryIndex(index);
 
     // Wait for fetchData to complete before opening the entry creation

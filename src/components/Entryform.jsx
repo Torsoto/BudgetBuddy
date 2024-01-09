@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EntryForm = ({ newEntry, handleAddEntry, setNewEntry, closePopup }) => {
     const [entryType, setEntryType] = useState('Expense');
+
+    useEffect(() => {
+        // Update entryType when newEntry.type changes
+        setEntryType(newEntry.type || 'Expense');
+    }, [newEntry]);
 
     const handleEntryTypeChange = (type) => {
         setEntryType(type);
