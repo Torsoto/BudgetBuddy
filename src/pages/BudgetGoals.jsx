@@ -94,7 +94,7 @@ const BudgetGoals = () => {
       <div className="content">
         <h1>Budget Goals</h1>
         <div>
-          <button onClick={showAddGoalPopup}>Addl</button>
+          <button onClick={showAddGoalPopup}>Add</button>
           {showPopup && (
             <div className="popup">
               <input

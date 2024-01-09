@@ -28,14 +28,11 @@ function MainApp() {
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
-    console.log(`Sidebar is now ${isSidebarOpen ? "open" : "closed"}`);
   };
 
   return (
     <ProfileImageProvider>
       <ThemeProvider theme={theme}>
-        {" "}
-        {/* ThemeProvider hinzufügen */}
         <div className="mainContainer">
           <TitleBar onToggleSidebar={toggleSidebar} />
           {!hideSidebar && (

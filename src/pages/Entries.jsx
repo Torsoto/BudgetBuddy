@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/Sidebar";
 import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
 import { auth, db } from '../../firebase/firestore.mjs';
@@ -46,8 +45,6 @@ const Entries = () => {
     }
 
     const userUid = auth.currentUser.uid;
-
-    console.log("Adding entry:", newEntry);
 
     if (editingEntryIndex !== null) {
       // If editing an entry, update the existing entry in Firestore

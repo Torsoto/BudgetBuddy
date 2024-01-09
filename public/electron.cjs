@@ -11,10 +11,10 @@ const createWindow = () => {
         frame: false,
         minWidth: 940,
         minHeight: 768,
+        icon: path.join(__dirname, 'icon.png'),
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            devTools: true,
             preload: path.join(__dirname, 'preload.cjs')
         },
     })
