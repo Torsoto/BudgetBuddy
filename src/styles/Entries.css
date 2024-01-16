@@ -128,3 +128,16 @@
   font-size: larger;
 }
 
+.csv-link {
+  opacity: 0.5;
+  font-size: small;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0;
+}
+
+.csv-link:hover {
+  transform: scale(1.05);
+}
+
+

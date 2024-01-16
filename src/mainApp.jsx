@@ -18,7 +18,7 @@ function MainApp() {
     location.pathname === "/" || location.pathname === "/SignUp";
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(false); // Zustand für den Dark Mode hinzufügen
-  const [profilImage, setProfileImage] = useState(null); // Zustand für das Profilbild hinzufügen
+  const [profilImage, setProfileImage] = useState(null);
 
   const theme = createTheme({
     palette: {

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Switch from "@mui/material/Switch"; // Importieren Sie die Switch-Komponente
 import "../styles/TitleBar.css";
-import BudgetBuddyLogo from "../assets/BudgetBuddyLogo.png";
 import { useContext } from "react";
 import { ProfileImageContext } from "../context/ProfileImageContext";
 import { useNavigate } from "react-router-dom";

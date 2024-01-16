@@ -96,11 +96,14 @@ button {
 }
 
 button:hover {
-  transform: scale(1.03);
-  background-color: #f8f8f8; /* Added hover color */
+  background-color: #f8f8f8;
 }
 
 button:focus,
 button:focus-visible {
   outline: 4px auto black;
+}
+
+button:active {
+  transform: scale(0.98);
 }
