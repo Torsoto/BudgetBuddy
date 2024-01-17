@@ -30,7 +30,7 @@ Start Development Server on [localhost:3000](http://localhost:3000/)
 ```bash
 npm run dev
 ```
-Open Desktop Applikation
+Open Desktop Applikation ( Development Server has to stay **OPEN** !! )
 ```bash
 npm run electron:start
 ```
