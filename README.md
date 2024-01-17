@@ -1,8 +1,59 @@
-# React + Vite
+# BudgetBuddy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Budget Buddy! This is a finance management desktop application designed to help you take control of your finances easily and efficiently.
 
-Currently, two official plugins are available:
+## Features
+- **Graphs:** Automatically generates informative graphs and charts of your financial data.
+- **Multiple Cards:** Easily manage finances for multiple cards.
+- **Colored Categories:** Categorize expenses with colored labels for quick identification.
+- **Budget Goals:** Set and monitor budget goals to achieve financial milestones.
+- **Export Finances and Graphs:** Easily export financial data and graphs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+Clone the repository:
+```bash
+git clone https://github.com/Torsoto/BudgetBuddy.git
+```
+Navigate to the project diary:
+```bash
+cd BudgetBuddy
+```
+Install the required dependencies in the root directory:
+```bash
+npm install
+```
+
+## Starting The App
+### With Development Server
+
+Start Development Server on [localhost:3000](http://localhost:3000/)
+```bash
+npm run dev
+```
+Open Desktop Applikation
+```bash
+npm run electron:start
+```
+### Without Development Server
+In */public* edit *electron.cjs* -> Comment the first line and Uncomment the second.
+```javascript
+mainWindow.loadURL('http://localhost:3000')
+//mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html'))
+```
+Building the App
+```bash
+npm run build
+```
+Open Desktop Applikation
+```bash
+npm run electron:start
+```
+
+
+
+
+
+
+
+Copyright (c) 2023 FH Campus Wien
+This project, BudgetBuddy, is the property of FH Campus Wien and is protected by copyright laws. It is made available on GitHub for educational and reference purposes only. Any unauthorized use, reproduction, or distribution of this project is strictly prohibited.
