@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Doughnut } from "react-chartjs-2";
+import React, { useState, useEffect, useContext } from "react";
+import { Doughnut, Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
+import { GlobalContext } from "../context/GlobalContext";
 import { collection, query, getDocs } from "firebase/firestore";
 import { auth, db } from "../../firebase/firestore.mjs";
 import "../styles/Homepage.css";
@@ -12,6 +13,7 @@ const Homepage = () => {
   const [incomeColors, setIncomeColors] = useState([]);
   const [outcomeColors, setOutcomeColors] = useState([]);
   const [budgetGoals, setBudgetGoals] = useState([]);
+  const { graphType } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +42,10 @@ const Homepage = () => {
               value: entryData.amount,
             });
           } else {
-            outcomeEntries.push(entryData.amount);
+            outcomeEntries.push({
+              label: entryData.category,
+              value: entryData.amount,
+            });
             uniqueOutcomeCategories.add(entryData.category);
           }
         });
@@ -57,6 +62,7 @@ const Homepage = () => {
       }
     };
 
+    // Fetch budget goals from Firestore
     const fetchBudgetGoals = async () => {
       if (auth.currentUser) {
         const goalsCollection = collection(
@@ -72,7 +78,7 @@ const Homepage = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures the effect runs once when the component mounts
+  }, []);
 
   // Function to generate random colors based on the number of categories
   const generateRandomColors = (count) => {
@@ -85,25 +91,46 @@ const Homepage = () => {
     return colors;
   };
 
+  // Function to generate the graph based on the graph type selected in Settings
+  const generateGraph = (graphType, data, backgroundColor) => {
+    const datasets = [{
+      label: '', // Set label to an empty string for all graph types
+      data: data.map(entry => entry.value),
+      backgroundColor,
+    }];
+
+    const chartData = {
+      labels: data.map(entry => entry.label),
+      datasets: datasets
+    };
+
+    const options = {
+      // Disable the legend for Line and Bar charts
+      plugins: {
+        legend: graphType !== 'Doughnut' ? { display: false } : {}
+      }
+    };
+
+    switch (graphType) {
+      case 'Bar':
+        return <Bar data={chartData} options={options} />;
+      case 'Line':
+        return <Line data={chartData} options={options} />;
+      default:
+        return <Doughnut data={chartData} options={options} />;
+    }
+  };
+
+
+
   return (
     <div className="homepage">
       <h1>Dashboard</h1>
       <div className="top-container">
         <div className="chart-container">
           {incomeData.length > 0 ? (
-            <div>
-              <Doughnut
-                data={{
-                  labels: incomeData.map((entry) => entry.label),
-                  datasets: [
-                    {
-                      label: "Income Dataset",
-                      data: incomeData.map((entry) => entry.value),
-                      backgroundColor: incomeColors,
-                    },
-                  ],
-                }}
-              />
+            <div className="test">
+              {generateGraph(graphType, incomeData, incomeColors)}
               <p>Income</p>
             </div>
           ) : (
@@ -112,18 +139,7 @@ const Homepage = () => {
 
           {outcomeCategories.length > 0 ? (
             <div>
-              <Doughnut
-                data={{
-                  labels: outcomeCategories,
-                  datasets: [
-                    {
-                      label: "Expenses Dataset",
-                      data: outcomeData,
-                      backgroundColor: outcomeColors,
-                    },
-                  ],
-                }}
-              />
+              {generateGraph(graphType, outcomeData, outcomeColors)}
               <p>Expenses</p>
             </div>
           ) : (

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import Switch from "@mui/material/Switch"; // Importieren Sie die Switch-Komponente
 import "../styles/TitleBar.css";
 import { useContext } from "react";
-import { ProfileImageContext } from "../context/ProfileImageContext";
+import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 
 const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
-  const { profileImage } = useContext(ProfileImageContext);
+  const { profileImage } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,9 +41,7 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
           checked={darkMode}
           onChange={() => setDarkMode(!darkMode)}
           className="darkModeSwitch"
-
-        />{" "}
-        {/* Verwenden Sie die Switch-Komponente */}
+        />
         <p>Change Theme</p>
         {profileImage && (
           <img

@@ -24,11 +24,12 @@
 .chart-container {
   display: flex;
   justify-content: space-around;
-  width: 60%; /* Adjust as needed */
+  width: 60%;
+  overflow: hidden;
 }
 
 .budgetgoal-container {
-  width: 25%; /* Adjust as needed */
+  width: 25%; 
 }
 
 .bottom-container {
@@ -49,4 +50,8 @@
   .chart-container, .budgetgoal-container, .bottom-container {
     width: 100%;
   }
+}
+
+.test {
+
 }

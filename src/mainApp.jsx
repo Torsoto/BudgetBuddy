@@ -10,7 +10,7 @@ import TitleBar from "./components/TitleBar.jsx";
 import SideBar from "./components/Sidebar.jsx";
 import Support from "./pages/Support.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ProfileImageProvider } from "./context/ProfileImageContext";
+import { GlobalProvider } from "./context/GlobalContext.jsx";
 
 function MainApp() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function MainApp() {
   };
 
   return (
-    <ProfileImageProvider>
+    <GlobalProvider>
       <ThemeProvider theme={theme}>
         <div className="mainContainer">
           <TitleBar onToggleSidebar={toggleSidebar} />
@@ -49,7 +49,7 @@ function MainApp() {
           </Routes>
         </div>
       </ThemeProvider>
-    </ProfileImageProvider>
+    </GlobalProvider>
   );
 }
 
