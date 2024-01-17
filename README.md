@@ -49,11 +49,5 @@ Open Desktop Applikation
 npm run electron:start
 ```
 
-
-
-
-
-
-
-Copyright (c) 2023 FH Campus Wien
+##### Copyright (c) 2023 FH Campus Wien
 This project, BudgetBuddy, is the property of FH Campus Wien and is protected by copyright laws. It is made available on GitHub for educational and reference purposes only. Any unauthorized use, reproduction, or distribution of this project is strictly prohibited.
