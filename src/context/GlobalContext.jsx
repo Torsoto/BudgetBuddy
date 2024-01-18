@@ -4,10 +4,15 @@ export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
     const [profileImage, setProfileImage] = useState(null);
-    const [graphType, setGraphType] = useState('Doughnut');
+    const [incomeGraphType, setIncomeGraphType] = useState('Doughnut');
+    const [outcomeGraphType, setOutcomeGraphType] = useState('Doughnut');
 
     return (
-        <GlobalContext.Provider value={{ profileImage, setProfileImage, graphType, setGraphType }}>
+        <GlobalContext.Provider value={{
+            profileImage, setProfileImage,
+            incomeGraphType, setIncomeGraphType,
+            outcomeGraphType, setOutcomeGraphType
+        }}>
             {children}
         </GlobalContext.Provider>
     );

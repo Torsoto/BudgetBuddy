@@ -13,7 +13,7 @@ const Homepage = () => {
   const [incomeColors, setIncomeColors] = useState([]);
   const [outcomeColors, setOutcomeColors] = useState([]);
   const [budgetGoals, setBudgetGoals] = useState([]);
-  const { graphType } = useContext(GlobalContext);
+  const { incomeGraphType, outcomeGraphType } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,16 +121,41 @@ const Homepage = () => {
     }
   };
 
+  const exportGraph = () => {
+    // Assuming you have one canvas element for each graph
+    const canvases = document.querySelectorAll('.chart-container canvas');
+
+    canvases.forEach((canvas, index) => {
+      if (canvas) {
+        // Convert canvas to data URL
+        const imageUrl = canvas.toDataURL("image/png");
+
+        // Create download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = imageUrl;
+        downloadLink.download = index === 0 ? 'income-graph.png' : 'expense-graph.png';
+
+        // Append to the body and trigger download
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+        // Clean up
+        document.body.removeChild(downloadLink);
+      }
+    });
+  };
+
 
 
   return (
     <div className="homepage">
       <h1>Dashboard</h1>
+      <p onClick={exportGraph} className="export-graph-p">EXPORT GRAPHS AS PNG</p>
       <div className="top-container">
         <div className="chart-container">
           {incomeData.length > 0 ? (
-            <div className="test">
-              {generateGraph(graphType, incomeData, incomeColors)}
+            <div className="income-graph">
+              {generateGraph(incomeGraphType, incomeData, incomeColors)}
               <p>Income</p>
             </div>
           ) : (
@@ -138,8 +163,8 @@ const Homepage = () => {
           )}
 
           {outcomeCategories.length > 0 ? (
-            <div>
-              {generateGraph(graphType, outcomeData, outcomeColors)}
+            <div className="expense-graph">
+              {generateGraph(outcomeGraphType, outcomeData, outcomeColors)}
               <p>Expenses</p>
             </div>
           ) : (

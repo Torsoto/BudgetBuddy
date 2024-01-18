@@ -1,12 +1,15 @@
 .sidebar {
     position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     top: 42px;
     left: 0;
     height: 100%;
     background-color: white;
     z-index: 0;
     transition: transform 0.3s ease-out;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid black;
   }
 
   .sidebar.closed {
@@ -17,14 +20,12 @@
     list-style-type: none;
     padding-left: 0px;
     color: black;
-    font-family: 'Roboto', sans-serif;
   }
   
   .sidebar li {
     display: flex;
-    font-size: 21px;
+    font-size: 20px;
     padding: 10px;
-    text-align: left;
   }
 
   .sidebar-toggle {
@@ -34,12 +35,39 @@
   }
   
   .sidebar a {
-    display: block;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
   }
 
   .sidebar-icon {
     margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 2px;
   }
 
+  .sidebar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logOut-container:hover {
+    transform: scale(1.05);
+  }
+
+  .logOut-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 35px;
+  }
+
+  .logOut-icon {
+    color: red;
+    font-size: 30px;
+  }
+
+  .logOut-button {
+    margin-left: 2.5px;
+    font-size: 20px;
+    color: red;
+  }

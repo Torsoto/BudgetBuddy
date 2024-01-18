@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Roboto", sans-serif;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -12,11 +12,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  margin: 0;
-  padding: 0;
 }
 
 h1 {
@@ -68,7 +63,6 @@ label {
 }
 
 a {
-  font-weight: 500;
   color: black;
   text-decoration: inherit;
 }
