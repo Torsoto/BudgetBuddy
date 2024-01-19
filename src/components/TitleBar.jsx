@@ -4,6 +4,8 @@ import "../styles/TitleBar.css";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/firestore.mjs"; // Adjust the path as necessary
+import { signOut } from "firebase/auth";
 
 const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
   const { profileImage } = useContext(GlobalContext);
@@ -18,10 +20,24 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
       window.electron.maximizeApp();
     });
 
-    document.getElementById("close").addEventListener("click", () => {
-      window.electron.closeApp();
-    });
+    const closeBtn = document.getElementById("close");
+    closeBtn.addEventListener("click", handleAppClose);
+
+    return () => {
+      closeBtn.removeEventListener("click", handleAppClose);
+    };
   }, []);
+
+  const handleAppClose = async () => {
+    // Log out user before closing the app
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+
+    window.electron.closeApp();
+  };
 
   const handleProfileClick = () => {
     console.log("Profile clicked");

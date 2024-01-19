@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../styles/Settings.css";
-import { useContext, useEffect } from "react";
 import { updateDoc, getDoc, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { auth, db } from "../../firebase/firestore.mjs";
@@ -23,19 +22,8 @@ const Settings = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (auth.currentUser) {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(userRef);
-
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          setImage(userData.profileImageUrl || noProfile);
-          setProfileImage(userData.profileImageUrl || noProfile);
-        }
-      }
       setEmail(fetchEmail());
     };
-
     fetchUserData();
   }, [auth.currentUser]);
 
