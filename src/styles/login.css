@@ -25,15 +25,9 @@
 
   .signup-login-text {
     color: black;
+    transition: 0.1s ease-in-out;
   }
 
   #signup-link-text {
     padding-left: 10px;
-  }
-  #bb-logo {
-  width: 350px;
-  }
-
-  a:hover {
-    transform: scale(1.03);
   }

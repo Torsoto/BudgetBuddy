@@ -3,7 +3,7 @@ import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
 import { auth, db } from '../../firebase/firestore.mjs';
 import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 import "../styles/Entries.css";
 
 const Entries = () => {
@@ -178,17 +178,6 @@ const Entries = () => {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("modal").style.display = "none";
   };
-  /*
-  const headers = [
-    { label: "Party", key: "party" },
-    { label: "Description", key: "description" },
-    { label: "Time", key: "time" },
-    { label: "Amount", key: "amount" },
-    { label: "Type", key: "type" },
-    { label: "Category", key: "category" },
-  ];
-  */
-
   // CSV data
   const csvData = financialEntries.map(entry => ({
     party: entry.party,
@@ -214,7 +203,7 @@ const Entries = () => {
           cardsOptions={cards}
         />
         <button onClick={openEntryCreation}>Add Entry</button>
-        <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT CSV</CSVLink>;
+        <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT AS CSV</CSVLink>;
         {financialEntries.length > 0 ? (
           <div className="entry-container">
             <EntriesTable

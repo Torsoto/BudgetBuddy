@@ -11,6 +11,7 @@
   flex-direction: row;
   justify-content: space-between;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .chart-container, .budgetgoal-container, .bottom-container {
@@ -24,11 +25,13 @@
 .chart-container {
   display: flex;
   justify-content: space-around;
-  width: 60%; /* Adjust as needed */
+  width: 60%;
+  overflow: hidden;
+  align-items: center;
 }
 
 .budgetgoal-container {
-  width: 25%; /* Adjust as needed */
+  width: 25%; 
 }
 
 .bottom-container {
@@ -40,13 +43,24 @@
   width: 92.5%;
 }
 
-/* Add media query for responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .homepage {
     width: 90%;
   }
 
-  .chart-container, .budgetgoal-container, .bottom-container {
+  .chart-container, .budgetgoal-container {
     width: 100%;
   }
+}
+
+.export-graph-p {
+  opacity: 0.5;
+  font-size: small;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.export-graph-p:hover {
+  scale: 1.03;
 }

@@ -6,12 +6,22 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "./public/electron.cjs",
+  "main": "./electron.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "electron:start": "electron ."
+    "electron:start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.fhcampuswien.budgetbuddy",
+    "productName": "BudgetBuddy",
+    "win": {
+      "target": "nsis",
+      "icon": "./public/icon256.png"
+    }
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -31,6 +41,7 @@
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
     "vite": "^5.0.8"
   }
 }

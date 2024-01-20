@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Doughnut } from "react-chartjs-2";
+import React, { useState, useEffect, useContext } from "react";
+import { Doughnut, Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
+import { GlobalContext } from "../context/GlobalContext";
 import { collection, query, getDocs } from "firebase/firestore";
 import { auth, db } from "../../firebase/firestore.mjs";
 import "../styles/Homepage.css";
@@ -12,6 +13,7 @@ const Homepage = () => {
   const [incomeColors, setIncomeColors] = useState([]);
   const [outcomeColors, setOutcomeColors] = useState([]);
   const [budgetGoals, setBudgetGoals] = useState([]);
+  const { incomeGraphType, outcomeGraphType } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +42,10 @@ const Homepage = () => {
               value: entryData.amount,
             });
           } else {
-            outcomeEntries.push(entryData.amount);
+            outcomeEntries.push({
+              label: entryData.category,
+              value: entryData.amount,
+            });
             uniqueOutcomeCategories.add(entryData.category);
           }
         });
@@ -57,6 +62,7 @@ const Homepage = () => {
       }
     };
 
+    // Fetch budget goals from Firestore
     const fetchBudgetGoals = async () => {
       if (auth.currentUser) {
         const goalsCollection = collection(
@@ -65,14 +71,25 @@ const Homepage = () => {
           auth.currentUser.uid,
           "goals"
         );
+        /*
         const goalsSnapshot = await getDocs(goalsCollection);
         const goalsData = goalsSnapshot.docs.map((doc) => doc.data().goal);
+        setBudgetGoals(goalsData);*/
+        const goalsSnapshot = await getDocs(goalsCollection);
+        const goalsData = goalsSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          goal: data.goal,
+          amount: data.amount,
+          category: data.category
+          };
+        });
         setBudgetGoals(goalsData);
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures the effect runs once when the component mounts
+  }, []);
 
   // Function to generate random colors based on the number of categories
   const generateRandomColors = (count) => {
@@ -85,25 +102,71 @@ const Homepage = () => {
     return colors;
   };
 
+  // Function to generate the graph based on the graph type selected in Settings
+  const generateGraph = (graphType, data, backgroundColor) => {
+    const datasets = [{
+      label: '', // Set label to an empty string for all graph types
+      data: data.map(entry => entry.value),
+      backgroundColor,
+    }];
+
+    const chartData = {
+      labels: data.map(entry => entry.label),
+      datasets: datasets
+    };
+
+    const options = {
+      // Disable the legend for Line and Bar charts
+      plugins: {
+        legend: graphType !== 'Doughnut' ? { display: false } : {}
+      }
+    };
+
+    switch (graphType) {
+      case 'Bar':
+        return <Bar data={chartData} options={options} />;
+      case 'Line':
+        return <Line data={chartData} options={options} />;
+      default:
+        return <Doughnut data={chartData} options={options} />;
+    }
+  };
+
+  const exportGraph = () => {
+    // Assuming you have one canvas element for each graph
+    const canvases = document.querySelectorAll('.chart-container canvas');
+
+    canvases.forEach((canvas, index) => {
+      if (canvas) {
+        // Convert canvas to data URL
+        const imageUrl = canvas.toDataURL("image/png");
+
+        // Create download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = imageUrl;
+        downloadLink.download = index === 0 ? 'income-graph.png' : 'expense-graph.png';
+
+        // Append to the body and trigger download
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+        // Clean up
+        document.body.removeChild(downloadLink);
+      }
+    });
+  };
+
+
+
   return (
     <div className="homepage">
       <h1>Dashboard</h1>
+      <p onClick={exportGraph} className="export-graph-p">EXPORT GRAPHS AS PNG</p>
       <div className="top-container">
         <div className="chart-container">
           {incomeData.length > 0 ? (
-            <div>
-              <Doughnut
-                data={{
-                  labels: incomeData.map((entry) => entry.label),
-                  datasets: [
-                    {
-                      label: "Income Dataset",
-                      data: incomeData.map((entry) => entry.value),
-                      backgroundColor: incomeColors,
-                    },
-                  ],
-                }}
-              />
+            <div className="income-graph">
+              {generateGraph(incomeGraphType, incomeData, incomeColors)}
               <p>Income</p>
             </div>
           ) : (
@@ -111,19 +174,8 @@ const Homepage = () => {
           )}
 
           {outcomeCategories.length > 0 ? (
-            <div>
-              <Doughnut
-                data={{
-                  labels: outcomeCategories,
-                  datasets: [
-                    {
-                      label: "Expenses Dataset",
-                      data: outcomeData,
-                      backgroundColor: outcomeColors,
-                    },
-                  ],
-                }}
-              />
+            <div className="expense-graph">
+              {generateGraph(outcomeGraphType, outcomeData, outcomeColors)}
               <p>Expenses</p>
             </div>
           ) : (
@@ -135,7 +187,7 @@ const Homepage = () => {
           <ul>
             {budgetGoals.map((goal, index) => (
               <li style={{ color: "black" }} key={index}>
-                {goal}
+                {goal.category} - {goal.amount} €
               </li>
             ))}
           </ul>

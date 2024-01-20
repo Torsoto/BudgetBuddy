@@ -10,12 +10,42 @@ import {
   doc,
 } from "firebase/firestore";
 
+
 const BudgetGoals = () => {
   const [budgetGoals, setBudgetGoals] = useState([]);
   const [newGoal, setNewGoal] = useState("");
+  const [newGoalAmount, setNewGoalAmount] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [editGoalId, setEditGoalId] = useState(null);
   const [editGoalText, setEditGoalText] = useState("");
+  const [editGoalAmount, setEditGoalAmount] = useState("");
+
+  const [newGoalType, setNewGoalType] = useState("Expense");
+  const [editGoalType, setEditGoalType] = useState("");
+  const [newGoalCategory, setNewGoalCategory] = useState("Select Category");
+  const [editGoalCategory, setEditGoalCategory] = useState("");
+
+  const getCategories = () => {
+    // Define categories based on entry type
+    if (newGoalType === 'Income') {
+      return ['Select Category', 'Salary', 'Bonus', 'Other Income'];
+    } else if (newGoalType === 'Expense') {
+      return [
+        'Select Category',
+        'Food & Drinks',
+        'Entertainment',
+        'Groceries',
+        'Utilities',
+        'Transportation',
+        'Healthcare',
+        'Education',
+        'Shopping',
+        'Travel',
+        'Housing',
+        'Other Expense',
+      ];
+    }
+  };
 
   const fetchData = async () => {
     if (!auth.currentUser) {
@@ -29,8 +59,12 @@ const BudgetGoals = () => {
     const goalsData = goalsSnapshot.docs.map((doc) => ({
       id: doc.id,
       goal: doc.data().goal,
+      amount: doc.data().amount,
+      type: doc.data().type,
+      category: doc.data().category
     }));
     setBudgetGoals(goalsData);
+    //console.error(goalsData)
   };
 
   useEffect(() => {
@@ -44,8 +78,11 @@ const BudgetGoals = () => {
 
     const userUid = auth.currentUser.uid;
 
-    await addDoc(collection(db, "users", userUid, "goals"), { goal: newGoal });
+    await addDoc(collection(db, "users", userUid, "goals"), { goal: newGoal, amount: newGoalAmount, type: newGoalType, category: newGoalCategory });
     setNewGoal("");
+    setNewGoalAmount("");
+    setNewGoalType('Expense');
+    setNewGoalCategory('Select Category');
     setShowPopup(false);
     fetchData();
   };
@@ -55,9 +92,14 @@ const BudgetGoals = () => {
   };
 
   const handleEditGoal = (goalId) => {
-    const goalToEdit = budgetGoals.find((goal) => goal.id === goalId);
+    const goalToEdit = budgetGoals.find((goal) => goal.id.toString() === goalId.toString());
+
     setEditGoalId(goalId);
     setEditGoalText(goalToEdit ? goalToEdit.goal : "");
+    setEditGoalAmount(goalToEdit ? goalToEdit.amount : "");
+    setEditGoalType(goalToEdit.type || "Expense");
+    setEditGoalCategory(goalToEdit.category || "Select category");
+
     setShowPopup(true);
   };
 
@@ -66,17 +108,26 @@ const BudgetGoals = () => {
     if (!auth.currentUser || editGoalText === "") {
       return;
     }
-
+    console.error(editGoalText);
+    console.error(editGoalCategory);
     await updateDoc(
       doc(db, "users", auth.currentUser.uid, "goals", editGoalId),
       {
         goal: editGoalText,
+        amount: editGoalAmount,
+        type: editGoalType,
+        category: editGoalCategory,
       }
     );
+
+    fetchData();
     setEditGoalId(null);
     setEditGoalText("");
+    setEditGoalAmount("");
+    setEditGoalType("Expense");
+    setEditGoalCategory("Select Category");
     setShowPopup(false);
-    fetchData();
+
   };
 
   //delete budget goal
@@ -99,6 +150,7 @@ const BudgetGoals = () => {
             <div className="popup">
               <input
                 type="text"
+                placeholder="description"
                 value={editGoalId ? editGoalText : newGoal}
                 onChange={(e) =>
                   editGoalId
@@ -106,6 +158,46 @@ const BudgetGoals = () => {
                     : setNewGoal(e.target.value)
                 }
               />
+              <input
+                type="number"
+                placeholder="amount"
+                value={editGoalId ? editGoalAmount : newGoalAmount}
+                onChange={(e) =>
+                  editGoalId
+                    ? setEditGoalAmount(e.target.value)
+                    : setNewGoalAmount(e.target.value)
+                }
+              />
+
+              <input
+                type="radio"
+                id="income"
+                name="goalType"
+                value="Income"
+                checked={editGoalId ? editGoalType === 'Income' : newGoalType === 'Income'}
+                onChange={() => editGoalId ? setEditGoalType('Income') : setNewGoalType('Income')}
+              />
+              <label htmlFor="income">Income</label>
+
+              <input
+                type="radio"
+                id="expense"
+                name="goalType"
+                value="Expense"
+                checked={editGoalId ? editGoalType === 'Expense' : newGoalType === 'Expense'}
+                onChange={() => editGoalId ? setEditGoalType('Expense') : setNewGoalType('Expense')}
+              />
+              <label htmlFor="expense">Expense</label>
+
+
+              <select
+                value={editGoalId ? editGoalCategory : newGoalCategory}
+                onChange={(e) => editGoalId ? setEditGoalCategory(e.target.value) : setNewGoalCategory(e.target.value)}
+              >
+                {getCategories().map((category, index) => (
+                  <option key={index} value={category}>{category}</option>
+                ))}
+              </select>
               <button
                 className="insert-button"
                 onClick={editGoalId ? handleSaveEditGoal : handleAddGoal}
@@ -118,6 +210,11 @@ const BudgetGoals = () => {
             {budgetGoals.map((goal) => (
               <li key={goal.id}>
                 <span className="goal-text">{goal.goal}</span>
+                <span className="goal-amount">{goal.amount} € </span>
+                <span className="goal-type">{goal.type}</span>
+                <span className="goal-category">{goal.category}</span>
+
+
                 <div className="edit-delete-buttons">
                   <button
                     className="edit-button"

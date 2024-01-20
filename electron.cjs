@@ -19,8 +19,13 @@ const createWindow = () => {
         },
     })
 
-    mainWindow.loadURL('http://localhost:3000')
-    //mainWindow.loadFile(path.join(app.getAppPath(), 'dist/index.html')) // <- Uncomment for build version.
+    const isDev = !app.isPackaged; // Check if Electron is running in development
+
+    if (isDev) {
+        mainWindow.loadURL('http://localhost:3000'); // Development URL
+    } else {
+        mainWindow.loadFile(path.join(__dirname, 'dist/index.html')); // Production build
+    }
 
 
     ipcMain.on('minimizeApp', () => {
