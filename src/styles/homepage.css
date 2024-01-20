@@ -34,6 +34,11 @@
   width: 25%; 
 }
 
+.budgetgoal-container h3 {
+  text-align: center;
+  color: black;
+}
+
 .bottom-container {
   background-color: rgb(255, 255, 255);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -63,4 +68,23 @@
 
 .export-graph-p:hover {
   scale: 1.03;
+}
+
+.bottom-container h3 {
+  text-align: center;
+  color: black;
+}
+
+.bottom-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.bottom-container li {
+  background-color: #f0f0f0;
+  text-align: left;
+  color: black;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
 }

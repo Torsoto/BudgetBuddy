@@ -14,6 +14,13 @@ const Homepage = () => {
   const [outcomeColors, setOutcomeColors] = useState([]);
   const [budgetGoals, setBudgetGoals] = useState([]);
   const { incomeGraphType, outcomeGraphType } = useContext(GlobalContext);
+  const [notifications, setNotifications] = useState([
+    "Notification 1: ",
+    "Notification 2: ",
+    "Notification 3: ",
+    "Notification 4: ",
+    "Notification 5: "
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,11 +84,11 @@ const Homepage = () => {
         setBudgetGoals(goalsData);*/
         const goalsSnapshot = await getDocs(goalsCollection);
         const goalsData = goalsSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          goal: data.goal,
-          amount: data.amount,
-          category: data.category
+          const data = doc.data();
+          return {
+            goal: data.goal,
+            amount: data.amount,
+            category: data.category
           };
         });
         setBudgetGoals(goalsData);
@@ -183,7 +190,7 @@ const Homepage = () => {
           )}
         </div>
         <div className="budgetgoal-container">
-          <p>Budget Goals</p>
+          <h3>Budget Goals</h3>
           <ul>
             {budgetGoals.map((goal, index) => (
               <li style={{ color: "black" }} key={index}>
@@ -194,7 +201,12 @@ const Homepage = () => {
         </div>
       </div>
       <div className="bottom-container">
-        <p>Hey</p>
+        <h3>Notifications</h3>
+        <ul>
+          {notifications.map((notification, index) => (
+            <li key={index}>{notification}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase
 import { CSVLink } from "react-csv";
 import "../styles/Entries.css";
 
-const Entries = () => {
+const Entries = ({ isSidebarOpen }) => {
   const [financialEntries, setFinancialEntries] = useState([]);
   const [cards, setCards] = useState([]);
   const [newEntry, setNewEntry] = useState({
@@ -192,8 +192,8 @@ const Entries = () => {
 
   return (
     <div className="Entries">
-      <h1>Entries</h1>
-      <div className="content">
+      <div className={isSidebarOpen ? "content sidebar-open" : "content"}>
+        <h1>Entries</h1>
         <div className="overlay" id="overlay"></div>
         <EntryForm
           newEntry={newEntry}

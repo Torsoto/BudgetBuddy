@@ -20,7 +20,7 @@ function MainApp() {
   const hideSidebar =
     location.pathname === "/" || location.pathname === "/SignUp";
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [darkMode, setDarkMode] = useState(false); // Zustand für den Dark Mode hinzufügen
+  const [darkMode, setDarkMode] = useState(false);
   const { setProfileImage } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function MainApp() {
           <Route path="/Home" element={<HomePage />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Settings" element={<Settings />} />
-          <Route path="/Entries" element={<Entries />} />
+          <Route path="/Entries" element={<Entries isSidebarOpen={isSidebarOpen} />} />
           <Route path="/BudgetGoals" element={<BudgetGoals />} />
           <Route path="/Support" element={<Support />} />
         </Routes>

@@ -52,3 +52,14 @@
     color: black;
   }
   
+  .remove-img {
+    opacity: 0.5;
+    font-size: small;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0;
+  }
+  
+  .remove-img:hover {
+    transform: scale(1.05);
+  }

@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.sidebar-open {
+  margin-left: 100px;
+}
+
 
 .entry-container td:nth-child(3) {
   white-space: nowrap; 

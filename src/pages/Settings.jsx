@@ -91,7 +91,33 @@ const Settings = () => {
     setGraphType(event.target.value);
   };
 
-  const handleChangePassword = () => { };
+  const handleRemoveImage = async () => {
+    const storage = getStorage();
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    const docSnap = await getDoc(userRef);
+
+    // Delete the current profile image from Firebase Storage if it exists
+    if (docSnap.exists() && docSnap.data().profileImageUrl && docSnap.data().profileImageUrl !== noProfile) {
+      const currentImageUrl = docSnap.data().profileImageUrl;
+      const currentImageRef = ref(storage, currentImageUrl);
+      try {
+        await deleteObject(currentImageRef);
+      } catch (error) {
+        console.error("Error deleting profile image:", error);
+      }
+    }
+
+    // Update the Firestore document
+    try {
+      await updateDoc(userRef, { profileImageUrl: noProfile });
+    } catch (error) {
+      console.error("Error updating profile image in Firestore:", error);
+    }
+
+    // Update the local state
+    setProfileImage(noProfile);
+    setImage(noProfile);
+  };
 
   return (
     <div className="Settings">
@@ -109,13 +135,8 @@ const Settings = () => {
           <label htmlFor="profile-picture-input">
             <img src={image} alt="Profile" className="profile-image" style={{ cursor: 'pointer' }} />
           </label>
+          <p className="remove-img" onClick={handleRemoveImage}>remove Image</p>
           <label>Email: {email}</label>
-          <button
-            className="change-password-button"
-            onClick={handleChangePassword}
-          >
-            Change Password
-          </button>
           <label className="graph-label">
             Income Graph Type:
             <select className="graph-selection" value={incomeGraphType} onChange={handleIncomeGraphTypeChange}>
@@ -133,10 +154,7 @@ const Settings = () => {
             </select>
           </label>
         </div>
-        <Cards/>
-        <Link to="/">
-          <button>Log Out</button>
-        </Link>
+        <Cards />
       </div>
     </div>
   );
