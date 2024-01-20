@@ -48,4 +48,19 @@
   .export-buttons > button:hover {
     background-color: #f8f8f8;
   }
+
+  .cards-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+  }
+
+  .cards-container h3 {
+    color: black;
+  }
   

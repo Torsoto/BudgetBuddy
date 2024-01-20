@@ -1,0 +1,20 @@
+.card-item {
+  color: black;
+  width: 360px;
+  border: 2px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  background-color: aquamarine;
+}
+
+.card-item h4 {
+  margin: 20px 30px 10px 30px;
+}
+
+.card-item p {
+  margin: 10px 30px 10px 30px;
+}

@@ -8,6 +8,7 @@ import "../styles/Entries.css";
 
 const Entries = () => {
   const [financialEntries, setFinancialEntries] = useState([]);
+  const [cards, setCards] = useState([]);
   const [newEntry, setNewEntry] = useState({
     party: "",
     description: "",
@@ -17,6 +18,10 @@ const Entries = () => {
     category: "",
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
+
+  useEffect(() => {
+    fetchCards();
+  }, []);
 
   const fetchData = async () => {
     if (!auth.currentUser) {
@@ -31,6 +36,25 @@ const Entries = () => {
 
     const entriesData = entriesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     setFinancialEntries(entriesData);
+  };
+
+  const fetchCards = async () => {
+    if (!auth.currentUser) {
+      // User not authenticated, handle this case as needed
+      console.log("not logged in");
+      return;
+    }
+    const userUid = auth.currentUser.uid;
+
+    const cardsCollection = collection(db, "users", userUid, "cards");
+    const cardsSnapshot = await getDocs(cardsCollection);
+
+    const cardsData = cardsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setCards(cardsData);
   };
 
   useEffect(() => {
@@ -187,6 +211,7 @@ const Entries = () => {
           handleAddEntry={handleAddEntry}
           setNewEntry={setNewEntry}
           closePopup={closePopup}
+          cardsOptions={cards}
         />
         <button onClick={openEntryCreation}>Add Entry</button>
         <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT CSV</CSVLink>;

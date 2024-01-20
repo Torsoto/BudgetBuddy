@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Cards from "../components/Cards"
 import "../styles/Settings.css";
 import {
   getStorage,
@@ -57,6 +58,7 @@ const Settings = () => {
             Change Password
           </button>
         </div>
+        <Cards/>
         <Link to="/">
           <button>Log Out</button>
         </Link>

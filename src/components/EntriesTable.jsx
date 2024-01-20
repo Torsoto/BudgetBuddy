@@ -23,6 +23,7 @@ const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEdit
                         <th>Amount</th>
                         <th>Type</th>
                         <th>Category</th>
+                        <th>Bankcard</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -35,6 +36,7 @@ const EntriesTable = ({ financialEntries, totalIncome, totalExpenses, handleEdit
                             <td>{entry.amount} €</td>
                             <td>{entry.type}</td>
                             <td>{entry.category}</td>
+                            <td>{entry.bankname}</td>
                             <td>
                                 <button className="edit-button-table" onClick={() => handleEditEntry(index)}>Edit</button>
                                 <button className="delete-button-table" onClick={() => deleteEntry(entry.id)}>Delete</button>
