@@ -80,7 +80,8 @@ const Homepage = () => {
         const data = doc.data();
         return {
           goal: data.goal,
-          amount: data.amount // Hier holen Sie den Betrag
+          amount: data.amount,
+          category: data.category
           };
         });
         setBudgetGoals(goalsData);
@@ -186,7 +187,7 @@ const Homepage = () => {
           <ul>
             {budgetGoals.map((goal, index) => (
               <li style={{ color: "black" }} key={index}>
-                {goal.goal} - {goal.amount} €
+                {goal.category} - {goal.amount} €
               </li>
             ))}
           </ul>
