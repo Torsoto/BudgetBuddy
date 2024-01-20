@@ -25,12 +25,25 @@
 
 .goal-text {
   flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
-  margin-right: 10px; /* Abstand zwischen Text und Buttons */
+  margin-right: 50px; /* Abstand zwischen Text und Buttons */
+}
+.goal-amount {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 50px; /* Abstand zwischen Text und Buttons */
+}
+.goal-category {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 20px; /* Abstand zwischen Text und Buttons */
+}
+.goal-type {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 20px; /* Abstand zwischen Text und Buttons */
 }
 
 .edit-delete-buttons {
   display: flex;
   justify-content: flex-end;
+  padding-left: 50px;
 }
 
 .edit-delete-buttons button {
@@ -39,4 +52,10 @@
 
 .edit-delete-buttons button:last-child {
   color: red;/* Entfernt den Abstand zwischen dem letzten Button und dem Rand */
+}
+.insert-button{
+  margin-left: 10px;
+}
+.popup input{
+  margin: 5px;
 }

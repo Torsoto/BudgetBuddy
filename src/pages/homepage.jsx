@@ -71,8 +71,18 @@ const Homepage = () => {
           auth.currentUser.uid,
           "goals"
         );
+        /*
         const goalsSnapshot = await getDocs(goalsCollection);
         const goalsData = goalsSnapshot.docs.map((doc) => doc.data().goal);
+        setBudgetGoals(goalsData);*/
+        const goalsSnapshot = await getDocs(goalsCollection);
+        const goalsData = goalsSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          goal: data.goal,
+          amount: data.amount // Hier holen Sie den Betrag
+          };
+        });
         setBudgetGoals(goalsData);
       }
     };
@@ -176,7 +186,7 @@ const Homepage = () => {
           <ul>
             {budgetGoals.map((goal, index) => (
               <li style={{ color: "black" }} key={index}>
-                {goal}
+                {goal.goal} - {goal.amount} €
               </li>
             ))}
           </ul>
