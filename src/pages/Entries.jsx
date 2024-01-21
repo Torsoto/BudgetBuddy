@@ -1,16 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import EntryForm from "../components/EntryForm";
+import React, { useState, useEffect } from "react";
+import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
-import { auth, db } from "../../firebase/firestore.mjs";
-import { GlobalContext } from "../context/GlobalContext";
-import {
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDocs,
-  doc,
-} from "firebase/firestore";
+import { auth, db } from '../../firebase/firestore.mjs';
+import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
 import { CSVLink } from "react-csv";
 import "../styles/Entries.css";
 
@@ -26,30 +18,8 @@ const Entries = ({ isSidebarOpen }) => {
     category: "",
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
-  const [budgetLimits, setBudgetLimits] = useState([]);
-  const { notificationsLimit, setNotificationsLimit } =
-    useContext(GlobalContext);
-
-  // Funktion zum Abrufen der Budgetgrenzen
-  const fetchBudgetLimits = async () => {
-    if (!auth.currentUser) {
-      console.log("not logged in");
-      return;
-    }
-    const userUid = auth.currentUser.uid;
-
-    const goalsCollection = collection(db, "users", userUid, "goals");
-    const goalsSnapshot = await getDocs(goalsCollection);
-    const limitsData = goalsSnapshot.docs.reduce(
-      (acc, doc) => ({ ...acc, [doc.data().category]: doc.data().amount }),
-      {}
-    );
-    setBudgetLimits(limitsData);
-  };
 
   useEffect(() => {
-    fetchBudgetLimits();
-
     fetchCards();
   }, []);
 
@@ -61,13 +31,10 @@ const Entries = ({ isSidebarOpen }) => {
 
     const userUid = auth.currentUser.uid;
 
-    const entriesCollection = collection(db, "users", userUid, "entries");
+    const entriesCollection = collection(db, 'users', userUid, 'entries');
     const entriesSnapshot = await getDocs(entriesCollection);
 
-    const entriesData = entriesSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const entriesData = entriesSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     setFinancialEntries(entriesData);
   };
 
@@ -116,28 +83,19 @@ const Entries = ({ isSidebarOpen }) => {
 
         console.log("Updating entry with ID:", entryId);
 
-        const entryRef = doc(db, "users", userUid, "entries", entryId);
-        await updateDoc(entryRef, {
-          ...newEntry,
-          type: financialEntries[editingEntryIndex].type,
-        });
+        const entryRef = doc(db, 'users', userUid, 'entries', entryId);
+        await updateDoc(entryRef, { ...newEntry, type: financialEntries[editingEntryIndex].type });
         setEditingEntryIndex(null);
       } else {
         // If adding a new entry, add it to the user's entries in Firestore
         console.log("Adding a new entry:", newEntry);
 
-        const entryRef = await addDoc(
-          collection(db, "users", userUid, "entries"),
-          {
-            ...newEntry,
-            type: newEntry.type || "Expense",
-          }
-        );
+        const entryRef = await addDoc(collection(db, 'users', userUid, 'entries'), {
+          ...newEntry,
+          type: newEntry.type || "Expense",
+        });
 
-        setFinancialEntries((prevEntries) => [
-          ...prevEntries,
-          { ...newEntry, id: entryRef.id },
-        ]);
+        setFinancialEntries((prevEntries) => [...prevEntries, { ...newEntry, id: entryRef.id }]);
       }
 
       // Clear the form and close the modal
@@ -157,25 +115,6 @@ const Entries = ({ isSidebarOpen }) => {
     } catch (error) {
       console.error("Error adding/editing entry:", error);
     }
-
-    // Check if the new entry exceeds the budget limit
-    if (newEntry.type === "Expense" && budgetLimits[newEntry.category]) {
-      const categoryLimit = parseFloat(budgetLimits[newEntry.category]);
-      if (parseFloat(newEntry.amount) > categoryLimit) {
-        console.log(
-          "Budgetlimit überschritten für Kategorie:",
-          newEntry.category
-        );
-        setNotificationsLimit((previous) => [
-          ...previous,
-          `Limit für ${newEntry.category} überschritten.`,
-        ]);
-        console.log(
-          "Nach Hinzufügen einer Benachrichtigung:",
-          notificationsLimit
-        );
-      }
-    }
   };
 
   const deleteEntry = async (id) => {
@@ -191,7 +130,7 @@ const Entries = ({ isSidebarOpen }) => {
 
     // If the entry is found, remove it from the user's entries in Firestore and the array
     if (entryIndex !== -1) {
-      const entryRef = doc(db, "users", userUid, "entries", id);
+      const entryRef = doc(db, 'users', userUid, 'entries', id);
       await deleteDoc(entryRef);
 
       const updatedEntries = [...financialEntries];
@@ -220,7 +159,7 @@ const Entries = ({ isSidebarOpen }) => {
       category: entryToEdit.category, // Add default category handling
     });
 
-    console.log("Editing entry:", entryToEdit);
+    console.log("Editing entry:", entryToEdit)
 
     setEditingEntryIndex(index);
 
@@ -240,7 +179,7 @@ const Entries = ({ isSidebarOpen }) => {
     document.getElementById("modal").style.display = "none";
   };
   // CSV data
-  const csvData = financialEntries.map((entry) => ({
+  const csvData = financialEntries.map(entry => ({
     party: entry.party,
     description: entry.description,
     time: entry.time,
@@ -264,13 +203,7 @@ const Entries = ({ isSidebarOpen }) => {
           cardsOptions={cards}
         />
         <button onClick={openEntryCreation}>Add Entry</button>
-        <CSVLink
-          filename={"Financial-Entries," + currentDate}
-          className="csv-link"
-          data={csvData}
-        >
-          EXPORT AS CSV
-        </CSVLink>
+        <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT AS CSV</CSVLink>
         {financialEntries.length > 0 ? (
           <div className="entry-container">
             <EntriesTable

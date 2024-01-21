@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../styles/BudgetGoals.css";
 import { auth, db } from "../../firebase/firestore.mjs";
+import { GlobalContext } from "../context/GlobalContext";
 import {
   collection,
   addDoc,
@@ -9,7 +10,6 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { GlobalContext } from "../context/GlobalContext";
 
 const BudgetGoals = () => {
   const [budgetGoals, setBudgetGoals] = useState([]);
@@ -90,16 +90,15 @@ const BudgetGoals = () => {
     setNewGoalCategory("Select Category");
     setShowPopup(false);
     fetchData();
+    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   const showAddGoalPopup = () => {
     setShowPopup(true);
   };
 
-  const handleEditGoal = (goalId) => {
-    const goalToEdit = budgetGoals.find(
-      (goal) => goal.id.toString() === goalId.toString()
-    );
+  const handleEditGoal = async (goalId) => {
+    const goalToEdit = budgetGoals.find((goal) => goal.id.toString() === goalId.toString());
 
     setEditGoalId(goalId);
     setEditGoalText(goalToEdit ? goalToEdit.goal : "");
@@ -108,6 +107,7 @@ const BudgetGoals = () => {
     setEditGoalCategory(goalToEdit.category || "Select category");
 
     setShowPopup(true);
+    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   //edit budget goal

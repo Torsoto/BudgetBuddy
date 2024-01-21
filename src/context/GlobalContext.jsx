@@ -6,7 +6,6 @@ export const GlobalProvider = ({ children }) => {
     const [profileImage, setProfileImage] = useState(null);
     const [incomeGraphType, setIncomeGraphType] = useState('Doughnut');
     const [outcomeGraphType, setOutcomeGraphType] = useState('Doughnut');
-    const [notificationsLimit, setNotificationsLimit] = useState([]);
     const [categoryColors, setCategoryColors] = useState({
         "Salary": "#00FFAD",
         "Food & Drinks": "#E8D603",
@@ -26,11 +25,9 @@ export const GlobalProvider = ({ children }) => {
             profileImage, setProfileImage,
             incomeGraphType, setIncomeGraphType,
             outcomeGraphType, setOutcomeGraphType,
-            notificationsLimit, setNotificationsLimit,
             categoryColors, setCategoryColors
         }}>
             {children}
         </GlobalContext.Provider>
     );
 };
-
