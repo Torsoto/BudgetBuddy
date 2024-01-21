@@ -49,6 +49,7 @@ const Cards = () => {
       cardDiv.appendChild(validTillParagraph);
 
       const rmBtn = document.createElement("button");
+      rmBtn.classList.add("remove-button");
       rmBtn.textContent = "-";
       rmBtn.onclick = function () {
         deleteCard(card.id);
@@ -179,7 +180,7 @@ const Cards = () => {
   return (
     <div className="cards-container">
       <h3>Cards</h3>
-      <ul id="cards-list">{/* Your cards list content */}</ul>
+      <ul id="cards-list"></ul>
       <button onClick={toggleForm} hidden={maxCards}>
         Open Form
       </button>

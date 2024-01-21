@@ -21,7 +21,7 @@ function Support() {
           onChange={(e) => setMessage(e.target.value)}
           style={{ width: "300px", height: "200px" }}
         />
-        <button onClick={sendEmail}>Senden</button>
+        <button className="support-button" onClick={sendEmail}>Senden</button>
       </div>
     </div>
   );

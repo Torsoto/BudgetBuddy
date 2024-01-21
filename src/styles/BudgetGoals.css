@@ -50,8 +50,6 @@
   margin-left: 5px; /* Abstand zwischen den Buttons */
 }
 
-.edit-delete-buttons button:last-child {
-}
 .insert-button{
   margin-left: 10px;
 }
@@ -108,12 +106,9 @@
 }
 
 .edit-delete-buttons button {
-  margin-left: 5px; /* Abstand zwischen den Buttons */
+  margin-left: 5px; 
 }
 
-.edit-delete-buttons button:last-child {
-
-}
 
 .insert-button{
   margin-left: 10px;
@@ -123,31 +118,17 @@
 }
 
 .delete-button {
-  border-radius: 4px; /* Smoother border-radius */
-  border: 1px solid #D32F2F; /* Red border */
-  background-color: white; /* White background */
-  outline: none;
-  padding: 0.6em 1.2em; /* Consistent padding */
-  font-size: 0.9em; /* Consistent font size */
-  font-weight: 600; /* Bold font for better readability */
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; 
-  color: #D32F2F; /* Red text */
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.19); /* Subtle shadow */
+  color: #D32F2F; 
+  border-color: #D32F2F;
 }
 
 .delete-button:hover {
-  background-color: #D32F2F; /* Red background on hover */
-  color: white; /* White text on hover */
-  border-color: #B71C1C; /* Darker red border on hover */
+  background-color: #D32F2F; 
+  color: white;
+  border-color: #B71C1C; 
 }
 
 .delete-button:focus,
 .delete-button:focus-visible {
-  outline: 4px auto #D32F2F; /* Red outline on focus */
-}
-
-.delete-button:active {
-  transform: scale(0.96); /* Slightly smaller scale on active for a button press effect */
+  outline: 4px auto #D32F2F; 
 }

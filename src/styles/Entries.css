@@ -182,33 +182,3 @@
     font-size: 0.9em;
   }
 }
-
-.entryform-cancel {
-  border-radius: 4px; /* Smoother border-radius */
-  border: 1px solid #D32F2F; /* Red border */
-  background-color: white; /* White background */
-  outline: none;
-  padding: 0.6em 1.2em; /* Consistent padding */
-  font-size: 0.9em; /* Consistent font size */
-  font-weight: 600; /* Bold font for better readability */
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; 
-  color: #D32F2F; /* Red text */
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.19); /* Subtle shadow */
-}
-
-.entryform-cancel:hover {
-  background-color: #D32F2F; /* Red background on hover */
-  color: white; /* White text on hover */
-  border-color: #B71C1C; /* Darker red border on hover */
-}
-
-.entryform-cancel:focus,
-.entryform-cancel:focus-visible {
-  outline: 4px auto #D32F2F; /* Red outline on focus */
-}
-
-.entryform-cancel:active {
-  transform: scale(0.96); /* Slightly smaller scale on active for a button press effect */
-}
