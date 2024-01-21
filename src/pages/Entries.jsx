@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
 import { auth, db } from '../../firebase/firestore.mjs';
@@ -14,13 +14,32 @@ const Entries = ({ isSidebarOpen }) => {
     description: "",
     time: "",
     amount: "",
-    type: "",
+    type: "Expense",
     category: "",
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
+  const [budgetGoals, setBudgetGoals] = useState([]);
 
   useEffect(() => {
     fetchCards();
+  }, []);
+
+  const fetchBudgetGoals = async () => {
+    if (!auth.currentUser) {
+      console.log("User not authenticated for fetching budget goals");
+      return;
+    }
+
+    const userUid = auth.currentUser.uid;
+    const goalsCollection = collection(db, "users", userUid, "goals");
+    const goalsSnapshot = await getDocs(goalsCollection);
+
+    const goalsData = goalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setBudgetGoals(goalsData);
+  };
+
+  useEffect(() => {
+    fetchBudgetGoals();
   }, []);
 
   const fetchData = async () => {
@@ -66,7 +85,7 @@ const Entries = ({ isSidebarOpen }) => {
 
     try {
       if (!auth.currentUser) {
-        // User not authenticated, handle this case as needed
+        // User not authenticated
         return;
       }
 
@@ -108,9 +127,9 @@ const Entries = ({ isSidebarOpen }) => {
         category: "",
       });
 
-      // Fetch updated data from Firestore
       await fetchData();
-
+      notifyAndSaveIfExceedsBudget(newEntry);
+      console.log(newEntry, "nice")
       closePopup();
     } catch (error) {
       console.error("Error adding/editing entry:", error);
@@ -167,6 +186,32 @@ const Entries = ({ isSidebarOpen }) => {
     await fetchData();
 
     openEntryCreation();
+    notifyAndSaveIfExceedsBudget(newEntry);
+  };
+
+
+
+  const notifyAndSaveIfExceedsBudget = async (entry) => {
+    console.log("Checking entry against budget goals", entry, budgetGoals);
+    const userUid = auth.currentUser ? auth.currentUser.uid : null;
+    if (!userUid) return;
+
+    const notificationsRef = collection(db, 'users', userUid, 'notifications');
+
+    budgetGoals.forEach(async (goal) => {
+      if (goal.type === entry.type && goal.category === entry.category && parseFloat(entry.amount) > parseFloat(goal.amount)) {
+        const newNotification = {
+          message: `Entry exceeds budget for ${goal.category}: ${entry.amount - goal.amount} €`,
+          time: new Date().toISOString()
+        };
+        try {
+          await addDoc(notificationsRef, newNotification);
+          console.log("Notification saved")
+        } catch (error) {
+          console.error("Error saving notification:", error);
+        }
+      }
+    });
   };
 
   const openEntryCreation = () => {

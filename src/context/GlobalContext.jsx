@@ -26,7 +26,7 @@ export const GlobalProvider = ({ children }) => {
             profileImage, setProfileImage,
             incomeGraphType, setIncomeGraphType,
             outcomeGraphType, setOutcomeGraphType,
-            categoryColors, setCategoryColors
+            categoryColors, setCategoryColors,
         }}>
             {children}
         </GlobalContext.Provider>

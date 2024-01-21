@@ -47,6 +47,28 @@ const BudgetGoals = () => {
     }
   };
 
+  const checkEntriesAgainstGoal = async (goal) => {
+    if (!auth.currentUser) {
+      return;
+    }
+
+    const userUid = auth.currentUser.uid;
+    const entriesCollection = collection(db, 'users', userUid, 'entries');
+    const entriesSnapshot = await getDocs(entriesCollection);
+
+    entriesSnapshot.docs.forEach(async (doc) => {
+      const entry = doc.data();
+      if (entry.type === goal.type && entry.category === goal.category && parseFloat(entry.amount) > parseFloat(goal.amount)) {
+        const notificationsRef = collection(db, 'users', userUid, 'notifications');
+        const newNotification = {
+          message: `Entry exceeds budget for ${goal.category}: ${entry.amount - goal.amount} € | Budget: ${goal.amount}`,
+          time: new Date().toISOString()
+        };
+        await addDoc(notificationsRef, newNotification);
+      }
+    });
+  };
+
   const fetchData = async () => {
     if (!auth.currentUser) {
       return;
@@ -90,7 +112,15 @@ const BudgetGoals = () => {
     setNewGoalCategory("Select Category");
     setShowPopup(false);
     fetchData();
-    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
+
+    const newGoalData = {
+      goal: newGoal,
+      amount: newGoalAmount,
+      type: newGoalType,
+      category: newGoalCategory,
+    };
+
+    checkEntriesAgainstGoal(newGoalData);
   };
 
   const showAddGoalPopup = () => {
@@ -107,7 +137,15 @@ const BudgetGoals = () => {
     setEditGoalCategory(goalToEdit.category || "Select category");
 
     setShowPopup(true);
-    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
+
+    const updatedGoalData = {
+      goal: goalToEdit.goal,
+      amount: goalToEdit.amount,
+      type: goalToEdit.type,
+      category: goalToEdit.category,
+    };
+
+    checkEntriesAgainstGoal(updatedGoalData);
   };
 
   //edit budget goal
@@ -115,8 +153,7 @@ const BudgetGoals = () => {
     if (!auth.currentUser || editGoalText === "") {
       return;
     }
-    console.error(editGoalText);
-    console.error(editGoalCategory);
+
     await updateDoc(
       doc(db, "users", auth.currentUser.uid, "goals", editGoalId),
       {
@@ -134,6 +171,15 @@ const BudgetGoals = () => {
     setEditGoalType("Expense");
     setEditGoalCategory("Select Category");
     setShowPopup(false);
+
+    const updatedGoalData = {
+      goal: editGoalText,
+      amount: editGoalAmount,
+      type: editGoalType,
+      category: editGoalCategory,
+    };
+
+    checkEntriesAgainstGoal(updatedGoalData);
   };
 
   //delete budget goal

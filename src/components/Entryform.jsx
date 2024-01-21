@@ -6,7 +6,7 @@ const EntryForm = ({
   setNewEntry,
   closePopup,
   cardsOptions,
-  
+
 }) => {
   const [entryType, setEntryType] = useState("Expense");
 
@@ -17,7 +17,7 @@ const EntryForm = ({
 
   const handleEntryTypeChange = (type) => {
     setEntryType(type);
-    setNewEntry({ ...newEntry, type, category: "" }); // Reset category when entry type changes
+    setNewEntry({ ...newEntry, type });
   };
 
   const getCategories = () => {

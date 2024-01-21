@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Doughnut, Line, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { GlobalContext } from "../context/GlobalContext";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, orderBy, limit } from "firebase/firestore";
 import { auth, db } from "../../firebase/firestore.mjs";
 import "../styles/Homepage.css";
 
@@ -22,7 +22,24 @@ const Homepage = () => {
     "Notification 5: "
   ]);
 
+  const formatTime = (time) => {
+    const formattedTime = new Date(time).toLocaleString(); // Adjust the format as needed
+    return formattedTime;
+  };
+
+  // Fetch notifications from Firestore
+  const fetchNotifications = async () => {
+    if (auth.currentUser) {
+      const userUid = auth.currentUser.uid;
+      const notificationsRef = collection(db, "users", userUid, "notifications");
+      const querySnapshot = await getDocs(query(notificationsRef, orderBy("time", "desc"), limit(5)));
+      const fetchedNotifications = querySnapshot.docs.map(doc => doc.data().message + " | " + formatTime(doc.data().time));
+      setNotifications(fetchedNotifications);
+    }
+  };
+
   useEffect(() => {
+    fetchNotifications();
     const fetchData = async () => {
       try {
         // Fetch user-specific entries from Firestore
