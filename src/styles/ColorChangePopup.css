@@ -1,0 +1,24 @@
+.change-color {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .change-color label {
+    margin-right: 10px;
+  }
+  
+  .change-color select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    display: block;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
