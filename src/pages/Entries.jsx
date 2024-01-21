@@ -123,13 +123,11 @@ const Entries = ({ isSidebarOpen }) => {
         description: "",
         time: "",
         amount: "",
-        type: "",
+        type: "Expense",
         category: "",
       });
 
       await fetchData();
-      notifyAndSaveIfExceedsBudget(newEntry);
-      console.log(newEntry, "nice")
       closePopup();
     } catch (error) {
       console.error("Error adding/editing entry:", error);
@@ -174,9 +172,10 @@ const Entries = ({ isSidebarOpen }) => {
     const entryToEdit = financialEntries[index];
     setNewEntry({
       ...entryToEdit,
-      type: entryToEdit.type, // Set a default type if not provided
-      category: entryToEdit.category, // Add default category handling
+      type: entryToEdit.type || "Expense",
+      category: entryToEdit.category,
     });
+
 
     console.log("Editing entry:", entryToEdit)
 
@@ -194,25 +193,47 @@ const Entries = ({ isSidebarOpen }) => {
   const notifyAndSaveIfExceedsBudget = async (entry) => {
     console.log("Checking entry against budget goals", entry, budgetGoals);
     const userUid = auth.currentUser ? auth.currentUser.uid : null;
-    if (!userUid) return;
+    if (!userUid) {
+      console.log("User UID not found.");
+      return;
+    }
 
     const notificationsRef = collection(db, 'users', userUid, 'notifications');
 
+    const categoryTotals = financialEntries.reduce((totals, currentEntry) => {
+      if (currentEntry.type === 'Expense') {
+        totals[currentEntry.category] = (totals[currentEntry.category] || 0) + parseFloat(currentEntry.amount);
+      }
+      return totals;
+    }, {});
+
+    console.log("Category Totals:", categoryTotals);
+
     budgetGoals.forEach(async (goal) => {
-      if (goal.type === entry.type && goal.category === entry.category && parseFloat(entry.amount) > parseFloat(goal.amount)) {
+      console.log(`Checking goal for category: ${goal.category} with amount: ${goal.amount}`);
+      if (goal.type === 'Expense' && categoryTotals[goal.category] > parseFloat(goal.amount)) {
+        const overBudget = categoryTotals[goal.category] - parseFloat(goal.amount);
+        console.log(`Over Budget in ${goal.category}: ${overBudget.toFixed(2)} €`);
         const newNotification = {
-          message: `Entry exceeds budget for ${goal.category}: ${entry.amount - goal.amount} €`,
+          message: `Total expenses in ${goal.category} exceed budget by ${overBudget.toFixed(2)} €`,
           time: new Date().toISOString()
         };
         try {
           await addDoc(notificationsRef, newNotification);
-          console.log("Notification saved")
+          console.log("Notification saved for exceeding budget in category:", goal.category);
         } catch (error) {
           console.error("Error saving notification:", error);
         }
       }
     });
   };
+
+  useEffect(() => {
+    // Call only if financialEntries is not empty and a new entry is added
+    if (financialEntries.length > 0 && editingEntryIndex === null) {
+      notifyAndSaveIfExceedsBudget(financialEntries[financialEntries.length - 1]);
+    }
+  }, [financialEntries]);
 
   const openEntryCreation = () => {
     document.getElementById("overlay").style.display = "block";
@@ -222,6 +243,14 @@ const Entries = ({ isSidebarOpen }) => {
   const closePopup = () => {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("modal").style.display = "none";
+    setNewEntry({
+      party: "",
+      description: "",
+      time: "",
+      amount: "",
+      type: "Expense",
+      category: "",
+    });
   };
   // CSV data
   const csvData = financialEntries.map(entry => ({

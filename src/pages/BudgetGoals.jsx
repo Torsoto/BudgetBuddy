@@ -56,18 +56,25 @@ const BudgetGoals = () => {
     const entriesCollection = collection(db, 'users', userUid, 'entries');
     const entriesSnapshot = await getDocs(entriesCollection);
 
-    entriesSnapshot.docs.forEach(async (doc) => {
-      const entry = doc.data();
-      if (entry.type === goal.type && entry.category === goal.category && parseFloat(entry.amount) > parseFloat(goal.amount)) {
-        const notificationsRef = collection(db, 'users', userUid, 'notifications');
-        const newNotification = {
-          message: `Entry exceeds budget for ${goal.category}: ${entry.amount - goal.amount} € | Budget: ${goal.amount}`,
-          time: new Date().toISOString()
-        };
-        await addDoc(notificationsRef, newNotification);
-      }
-    });
+    // Calculate the total amount for the goal's category
+    const totalAmount = entriesSnapshot.docs
+      .map(doc => doc.data())
+      .filter(entry => entry.type === goal.type && entry.category === goal.category)
+      .reduce((total, entry) => total + parseFloat(entry.amount), 0);
+
+    // Check if total amount exceeds the goal
+    if (totalAmount > parseFloat(goal.amount)) {
+      const overBudget = totalAmount - parseFloat(goal.amount);
+      const notificationsRef = collection(db, 'users', userUid, 'notifications');
+      const newNotification = {
+        message: `Total expenses in ${goal.category} exceed budget by ${overBudget.toFixed(2)} €`,
+        time: new Date().toISOString()
+      };
+      await addDoc(notificationsRef, newNotification);
+    }
   };
+
+
 
   const fetchData = async () => {
     if (!auth.currentUser) {
