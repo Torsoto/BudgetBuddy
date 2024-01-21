@@ -51,11 +51,103 @@
 }
 
 .edit-delete-buttons button:last-child {
-  color: red;/* Entfernt den Abstand zwischen dem letzten Button und dem Rand */
 }
 .insert-button{
   margin-left: 10px;
 }
 .popup input{
   margin: 5px;
+}
+
+.goalsContainer {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  min-width: 500px;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.goalsContainer li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Fügt eine Linie zwischen den Einträgen hinzu */
+}
+
+.goalsContainer li:last-child {
+  border-bottom: none;
+}
+
+.goal-text {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 50px; /* Abstand zwischen Text und Buttons */
+}
+.goal-amount {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 50px; /* Abstand zwischen Text und Buttons */
+}
+.goal-category {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 20px; /* Abstand zwischen Text und Buttons */
+}
+.goal-type {
+  flex-grow: 1; /* Lässt den Text den verfügbaren Platz einnehmen */
+  margin-right: 20px; /* Abstand zwischen Text und Buttons */
+}
+
+.edit-delete-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding-left: 50px;
+}
+
+.edit-delete-buttons button {
+  margin-left: 5px; /* Abstand zwischen den Buttons */
+}
+
+.edit-delete-buttons button:last-child {
+
+}
+
+.insert-button{
+  margin-left: 10px;
+}
+.popup input{
+  margin: 5px;
+}
+
+.delete-button {
+  border-radius: 4px; /* Smoother border-radius */
+  border: 1px solid #D32F2F; /* Red border */
+  background-color: white; /* White background */
+  outline: none;
+  padding: 0.6em 1.2em; /* Consistent padding */
+  font-size: 0.9em; /* Consistent font size */
+  font-weight: 600; /* Bold font for better readability */
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; 
+  color: #D32F2F; /* Red text */
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.19); /* Subtle shadow */
+}
+
+.delete-button:hover {
+  background-color: #D32F2F; /* Red background on hover */
+  color: white; /* White text on hover */
+  border-color: #B71C1C; /* Darker red border on hover */
+}
+
+.delete-button:focus,
+.delete-button:focus-visible {
+  outline: 4px auto #D32F2F; /* Red outline on focus */
+}
+
+.delete-button:active {
+  transform: scale(0.96); /* Slightly smaller scale on active for a button press effect */
 }

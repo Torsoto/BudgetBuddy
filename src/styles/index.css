@@ -5,7 +5,6 @@
   padding: 0;
   height: 100%;
   text-align: center;
-  color: rgba(255, 255, 255, 0.87);
   background-color: #fafafa;
 
   font-synthesis: none;
@@ -75,28 +74,31 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 4px; /* Smoother border-radius */
+  border: 1px solid #4CAF50; /* Green border */
+  background-color: white; /* White background */
   outline: none;
-  padding: 0.3em 1em;
-  font-size: 1em;
-  font-weight: 500;
+  padding: 0.6em 1.2em; /* Increased padding for better visual */
+  font-size: 0.9em; /* Slightly smaller font size */
+  font-weight: 600; /* Bold font for better readability */
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s, transform 0.3s; 
-  color: black;
-  border-color: black;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; 
+  color: #4CAF50; /* Green text to match the border */
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 0 2px 0 rgba(0,0,0,0.19); /* Adding a subtle shadow for depth */
 }
 
 button:hover {
-  background-color: #f8f8f8;
+  background-color: #4CAF50; /* Green background on hover */
+  color: white; /* White text on hover */
+  border-color: #388E3C; /* Darker green border on hover */
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto black;
+  outline: 4px auto #4CAF50; /* Green outline on focus */
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.96); /* Slightly smaller scale on active for a button press effect */
 }

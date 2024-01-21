@@ -203,7 +203,7 @@ const Entries = ({ isSidebarOpen }) => {
           cardsOptions={cards}
         />
         <button onClick={openEntryCreation}>Add Entry</button>
-        <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT AS CSV</CSVLink>;
+        <CSVLink filename={"Financial-Entries," + currentDate} className="csv-link" data={csvData}>EXPORT AS CSV</CSVLink>
         {financialEntries.length > 0 ? (
           <div className="entry-container">
             <EntriesTable

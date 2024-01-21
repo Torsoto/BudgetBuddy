@@ -141,7 +141,7 @@ const EntryForm = ({
           ))}
         </select>
 
-        <button type="button" onClick={closePopup}>
+        <button className="entryform-cancel" type="button" onClick={closePopup}>
           Cancel
         </button>
         <button type="submit">Add Entry</button>

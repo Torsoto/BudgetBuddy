@@ -97,3 +97,23 @@
 .darkModeSwitch {
     -webkit-app-region: no-drag;
 }
+
+#minimize {
+    border: none;
+    box-shadow: none;
+}
+
+#maximize {
+    border: none;
+    box-shadow: none;
+}
+
+#close {
+    border: none;
+    box-shadow: none;
+}
+
+#showHideMenus {
+    border: none;
+    box-shadow: none;
+}

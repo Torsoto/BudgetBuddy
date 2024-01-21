@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain, net } = require('electron')
 const process = require('process');
-const url = require('url');
 const path = require('path');
 
 const createWindow = () => {
