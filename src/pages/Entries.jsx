@@ -19,6 +19,7 @@ const Entries = ({ isSidebarOpen }) => {
   });
   const [editingEntryIndex, setEditingEntryIndex] = useState(null);
   const [budgetGoals, setBudgetGoals] = useState([]);
+  const [notificationsSent, setNotificationsSent] = useState(false);
 
   useEffect(() => {
     fetchCards();
@@ -128,6 +129,7 @@ const Entries = ({ isSidebarOpen }) => {
       });
 
       await fetchData();
+      setNotificationsSent(false);
       closePopup();
     } catch (error) {
       console.error("Error adding/editing entry:", error);
@@ -183,7 +185,7 @@ const Entries = ({ isSidebarOpen }) => {
 
     // Wait for fetchData to complete before opening the entry creation
     await fetchData();
-
+    setNotificationsSent(false);
     openEntryCreation();
     notifyAndSaveIfExceedsBudget(newEntry);
   };
@@ -229,11 +231,11 @@ const Entries = ({ isSidebarOpen }) => {
   };
 
   useEffect(() => {
-    // Call only if financialEntries is not empty and a new entry is added
-    if (financialEntries.length > 0 && editingEntryIndex === null) {
+    if (!notificationsSent && financialEntries.length > 0 && editingEntryIndex === null) {
       notifyAndSaveIfExceedsBudget(financialEntries[financialEntries.length - 1]);
+      setNotificationsSent(true); // Set flag after sending notifications
     }
-  }, [financialEntries]);
+  }, [financialEntries, notificationsSent, editingEntryIndex]);
 
   const openEntryCreation = () => {
     document.getElementById("overlay").style.display = "block";
