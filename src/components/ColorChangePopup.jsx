@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import "../styles/ColorChangePopup.css";
 
 const ColorChangePopup = ({ categoryColors, setCategoryColors, onClose }) => {
   const [selectedColors, setSelectedColors] = useState(categoryColors);
