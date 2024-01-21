@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, net } = require('electron')
 const process = require('process');
 const url = require('url');
 const path = require('path');
@@ -19,14 +19,34 @@ const createWindow = () => {
         },
     })
 
-    const isDev = !app.isPackaged; // Check if Electron is running in development
+    const devUrl = 'http://localhost:3000';
+    const prodPath = path.join(__dirname, 'dist/index.html');
 
-    if (isDev) {
-        mainWindow.loadURL('http://localhost:3000'); // Development URL
-    } else {
-        mainWindow.loadFile(path.join(__dirname, 'dist/index.html')); // Production build
-    }
+    const tryLoadDev = () => {
+        const request = net.request(devUrl);
 
+        request.on('response', (response) => {
+            if (response.statusCode === 200) {
+                // Development server is running
+                mainWindow.loadURL(devUrl);
+                console.log('Running in development');
+            } else {
+                // Development server not running, load production file
+                mainWindow.loadFile(prodPath);
+                console.log('Running in production - fallback');
+            }
+        });
+
+        request.on('error', (error) => {
+            // Error connecting to development server, load production file
+            mainWindow.loadFile(prodPath);
+            console.log('Running in production - error');
+        });
+
+        request.end();
+    };
+
+    tryLoadDev();
 
     ipcMain.on('minimizeApp', () => {
         mainWindow.minimize();
