@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../styles/BudgetGoals.css";
 import { auth, db } from "../../firebase/firestore.mjs";
 import {
@@ -9,7 +9,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-
+import { GlobalContext } from "../context/GlobalContext";
 
 const BudgetGoals = () => {
   const [budgetGoals, setBudgetGoals] = useState([]);
@@ -19,30 +19,30 @@ const BudgetGoals = () => {
   const [editGoalId, setEditGoalId] = useState(null);
   const [editGoalText, setEditGoalText] = useState("");
   const [editGoalAmount, setEditGoalAmount] = useState("");
-
   const [newGoalType, setNewGoalType] = useState("Expense");
   const [editGoalType, setEditGoalType] = useState("");
   const [newGoalCategory, setNewGoalCategory] = useState("Select Category");
   const [editGoalCategory, setEditGoalCategory] = useState("");
+  const { categoryColors } = useContext(GlobalContext);
 
   const getCategories = () => {
     // Define categories based on entry type
-    if (newGoalType === 'Income') {
-      return ['Select Category', 'Salary', 'Bonus', 'Other Income'];
-    } else if (newGoalType === 'Expense') {
+    if (newGoalType === "Income") {
+      return ["Select Category", "Salary", "Bonus", "Other Income"];
+    } else if (newGoalType === "Expense") {
       return [
-        'Select Category',
-        'Food & Drinks',
-        'Entertainment',
-        'Groceries',
-        'Utilities',
-        'Transportation',
-        'Healthcare',
-        'Education',
-        'Shopping',
-        'Travel',
-        'Housing',
-        'Other Expense',
+        "Select Category",
+        "Food & Drinks",
+        "Entertainment",
+        "Groceries",
+        "Utilities",
+        "Transportation",
+        "Healthcare",
+        "Education",
+        "Shopping",
+        "Travel",
+        "Housing",
+        "Other Expense",
       ];
     }
   };
@@ -61,7 +61,7 @@ const BudgetGoals = () => {
       goal: doc.data().goal,
       amount: doc.data().amount,
       type: doc.data().type,
-      category: doc.data().category
+      category: doc.data().category,
     }));
     setBudgetGoals(goalsData);
     //console.error(goalsData)
@@ -78,11 +78,16 @@ const BudgetGoals = () => {
 
     const userUid = auth.currentUser.uid;
 
-    await addDoc(collection(db, "users", userUid, "goals"), { goal: newGoal, amount: newGoalAmount, type: newGoalType, category: newGoalCategory });
+    await addDoc(collection(db, "users", userUid, "goals"), {
+      goal: newGoal,
+      amount: newGoalAmount,
+      type: newGoalType,
+      category: newGoalCategory,
+    });
     setNewGoal("");
     setNewGoalAmount("");
-    setNewGoalType('Expense');
-    setNewGoalCategory('Select Category');
+    setNewGoalType("Expense");
+    setNewGoalCategory("Select Category");
     setShowPopup(false);
     fetchData();
   };
@@ -92,7 +97,9 @@ const BudgetGoals = () => {
   };
 
   const handleEditGoal = (goalId) => {
-    const goalToEdit = budgetGoals.find((goal) => goal.id.toString() === goalId.toString());
+    const goalToEdit = budgetGoals.find(
+      (goal) => goal.id.toString() === goalId.toString()
+    );
 
     setEditGoalId(goalId);
     setEditGoalText(goalToEdit ? goalToEdit.goal : "");
@@ -127,7 +134,6 @@ const BudgetGoals = () => {
     setEditGoalType("Expense");
     setEditGoalCategory("Select Category");
     setShowPopup(false);
-
   };
 
   //delete budget goal
@@ -174,8 +180,16 @@ const BudgetGoals = () => {
                 id="income"
                 name="goalType"
                 value="Income"
-                checked={editGoalId ? editGoalType === 'Income' : newGoalType === 'Income'}
-                onChange={() => editGoalId ? setEditGoalType('Income') : setNewGoalType('Income')}
+                checked={
+                  editGoalId
+                    ? editGoalType === "Income"
+                    : newGoalType === "Income"
+                }
+                onChange={() =>
+                  editGoalId
+                    ? setEditGoalType("Income")
+                    : setNewGoalType("Income")
+                }
               />
               <label htmlFor="income">Income</label>
 
@@ -184,18 +198,31 @@ const BudgetGoals = () => {
                 id="expense"
                 name="goalType"
                 value="Expense"
-                checked={editGoalId ? editGoalType === 'Expense' : newGoalType === 'Expense'}
-                onChange={() => editGoalId ? setEditGoalType('Expense') : setNewGoalType('Expense')}
+                checked={
+                  editGoalId
+                    ? editGoalType === "Expense"
+                    : newGoalType === "Expense"
+                }
+                onChange={() =>
+                  editGoalId
+                    ? setEditGoalType("Expense")
+                    : setNewGoalType("Expense")
+                }
               />
               <label htmlFor="expense">Expense</label>
 
-
               <select
                 value={editGoalId ? editGoalCategory : newGoalCategory}
-                onChange={(e) => editGoalId ? setEditGoalCategory(e.target.value) : setNewGoalCategory(e.target.value)}
+                onChange={(e) =>
+                  editGoalId
+                    ? setEditGoalCategory(e.target.value)
+                    : setNewGoalCategory(e.target.value)
+                }
               >
                 {getCategories().map((category, index) => (
-                  <option key={index} value={category}>{category}</option>
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
                 ))}
               </select>
               <button
@@ -212,9 +239,12 @@ const BudgetGoals = () => {
                 <span className="goal-text">{goal.goal}</span>
                 <span className="goal-amount">{goal.amount} € </span>
                 <span className="goal-type">{goal.type}</span>
-                <span className="goal-category">{goal.category}</span>
-
-
+                <span
+                  style={{ backgroundColor: categoryColors[goal.category], borderRadius: '5px' }}
+                  className="goal-category"
+                >
+                  {goal.category}
+                </span>
                 <div className="edit-delete-buttons">
                   <button
                     className="edit-button"

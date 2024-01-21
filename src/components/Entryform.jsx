@@ -6,6 +6,7 @@ const EntryForm = ({
   setNewEntry,
   closePopup,
   cardsOptions,
+  
 }) => {
   const [entryType, setEntryType] = useState("Expense");
 

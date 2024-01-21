@@ -86,7 +86,7 @@ const TitleBar = ({ onToggleSidebar }) => {
               <div className="dropdown-notification">
                 <h4>Notifications</h4>
                 <ul>
-                  {notifications.map((notification, index) => (
+                  {notificationsLimit.map((notification, index) => (
                     <li key={index}>{notification}</li>
                   ))}
                 </ul>

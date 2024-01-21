@@ -1,18 +1,33 @@
 import { Link } from "react-router-dom";
 import React, { useState, useContext, useEffect } from "react";
-import Cards from "../components/Cards"
+import Cards from "../components/Cards";
 import "../styles/Settings.css";
 import { updateDoc, getDoc, doc, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { auth, db } from "../../firebase/firestore.mjs";
 import { GlobalContext } from "../context/GlobalContext";
 import noProfile from "../assets/NoProfile.jpg";
-
+import ColorChangePopup from "../components/ColorChangePopup";
 
 const Settings = () => {
   const [email, setEmail] = useState(null);
-  const { profileImage, setProfileImage, incomeGraphType, setIncomeGraphType, outcomeGraphType, setOutcomeGraphType } = useContext(GlobalContext);
+  const {
+    profileImage,
+    setProfileImage,
+    incomeGraphType,
+    setIncomeGraphType,
+    outcomeGraphType,
+    setOutcomeGraphType,
+  } = useContext(GlobalContext);
   const [image, setImage] = useState(profileImage || noProfile);
+  const { categoryColors, setCategoryColors } = useContext(GlobalContext);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleIncomeGraphTypeChange = (event) => {
     setIncomeGraphType(event.target.value);
@@ -32,7 +47,7 @@ const Settings = () => {
   const fetchEmail = () => {
     const user = auth.currentUser;
     return user.email;
-  }
+  };
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -53,7 +68,10 @@ const Settings = () => {
       }
 
       // Continue with uploading the new image
-      const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}/${file.name}`);
+      const storageRef = ref(
+        storage,
+        `profileImages/${auth.currentUser.uid}/${file.name}`
+      );
       try {
         const snapshot = await uploadBytes(storageRef, file);
         const url = await getDownloadURL(snapshot.ref);
@@ -97,7 +115,11 @@ const Settings = () => {
     const docSnap = await getDoc(userRef);
 
     // Delete the current profile image from Firebase Storage if it exists
-    if (docSnap.exists() && docSnap.data().profileImageUrl && docSnap.data().profileImageUrl !== noProfile) {
+    if (
+      docSnap.exists() &&
+      docSnap.data().profileImageUrl &&
+      docSnap.data().profileImageUrl !== noProfile
+    ) {
       const currentImageUrl = docSnap.data().profileImageUrl;
       const currentImageRef = ref(storage, currentImageUrl);
       try {
@@ -119,6 +141,18 @@ const Settings = () => {
     setImage(noProfile);
   };
 
+  const handleCategoryColorChange = (category, color) => {
+    setCategoryColors({ ...categoryColors, [category]: color });
+  };
+
+  const handleOpenPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="Settings">
       <div className="content">
@@ -130,16 +164,27 @@ const Settings = () => {
             name="profile-picture"
             accept="image/*"
             onChange={handleImageChange}
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
           />
           <label htmlFor="profile-picture-input">
-            <img src={image} alt="Profile" className="profile-image" style={{ cursor: 'pointer' }} />
+            <img
+              src={image}
+              alt="Profile"
+              className="profile-image"
+              style={{ cursor: "pointer" }}
+            />
           </label>
-          <p className="remove-img" onClick={handleRemoveImage}>remove Image</p>
+          <p className="remove-img" onClick={handleRemoveImage}>
+            remove Image
+          </p>
           <label>Email: {email}</label>
           <label className="graph-label">
             Income Graph Type:
-            <select className="graph-selection" value={incomeGraphType} onChange={handleIncomeGraphTypeChange}>
+            <select
+              className="graph-selection"
+              value={incomeGraphType}
+              onChange={handleIncomeGraphTypeChange}
+            >
               <option value="Doughnut">Doughnut</option>
               <option value="Bar">Bar</option>
               <option value="Line">Line</option>
@@ -147,12 +192,27 @@ const Settings = () => {
           </label>
           <label className="graph-label">
             Expenses Graph Type:
-            <select className="graph-selection" value={outcomeGraphType} onChange={handleOutcomeGraphTypeChange}>
+            <select
+              className="graph-selection"
+              value={outcomeGraphType}
+              onChange={handleOutcomeGraphTypeChange}
+            >
               <option value="Doughnut">Doughnut</option>
               <option value="Bar">Bar</option>
               <option value="Line">Line</option>
             </select>
           </label>
+          <label className="category-label">
+            Change Color of Categories:
+            <button onClick={handleOpenPopup}>Change Colors</button>
+          </label>
+          {showPopup && (
+            <ColorChangePopup
+              categoryColors={categoryColors}
+              setCategoryColors={setCategoryColors}
+              onClose={handleClosePopup}
+            />
+          )}
         </div>
         <Cards />
       </div>

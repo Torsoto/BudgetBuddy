@@ -37,6 +37,12 @@
     margin-left: 10px;
   }
 
+  .category-label {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
   .cards-container {
     margin-top: 30px;
     margin-bottom: 30px;
