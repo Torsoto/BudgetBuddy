@@ -1,28 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import Switch from "@mui/material/Switch"; // Importieren Sie die Switch-Komponente
 import "../styles/TitleBar.css";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firestore.mjs"; // Adjust the path as necessary
 import { signOut } from "firebase/auth";
-import { IoIosNotificationsOutline } from "react-icons/io";
 
-const TitleBar = ({ onToggleSidebar }) => {
-  const { profileImage, notificationsLimit } = useContext(GlobalContext);
+const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
+  const { profileImage } = useContext(GlobalContext);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState([" ", " ", " ", " ", " "]);
 
   useEffect(() => {
-    console.log("Aktueller Wert von notificationsLimit:", notificationsLimit);
-    if (notificationsLimit && notificationsLimit.length > 0) {
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        ...notificationsLimit,
-      ]);
-    }
-    console.log("Aktualisierte Benachrichtigungen:", notifications);
-
     document.getElementById("minimize").addEventListener("click", () => {
       window.electron.minimizeApp();
     });
@@ -37,7 +26,7 @@ const TitleBar = ({ onToggleSidebar }) => {
     return () => {
       closeBtn.removeEventListener("click", handleAppClose);
     };
-  }, [notificationsLimit]);
+  }, []);
 
   const handleAppClose = async () => {
     // Log out user before closing the app
@@ -55,8 +44,6 @@ const TitleBar = ({ onToggleSidebar }) => {
     navigate("/Settings");
   };
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
   return (
     <div className="topbar">
       <div className="titlebar">
@@ -66,6 +53,12 @@ const TitleBar = ({ onToggleSidebar }) => {
           onClick={onToggleSidebar}
         ></button>
         <div className="title">BudgetBuddy</div>
+        <Switch
+          checked={darkMode}
+          onChange={() => setDarkMode(!darkMode)}
+          className="darkModeSwitch"
+        />
+        <p>Change Theme</p>
         {profileImage && (
           <img
             src={profileImage}
@@ -73,26 +66,6 @@ const TitleBar = ({ onToggleSidebar }) => {
             className="profile-image"
             onClick={handleProfileClick}
           />
-        )}
-      </div>
-      <div>
-        <IoIosNotificationsOutline
-          className="notification-icon"
-          onClick={toggleDropdown}
-        />
-        {isOpen && (
-          <div className="dropdown">
-            {
-              <div className="dropdown-notification">
-                <h4>Notifications</h4>
-                <ul>
-                  {notifications.map((notification, index) => (
-                    <li key={index}>{notification}</li>
-                  ))}
-                </ul>
-              </div>
-            }
-          </div>
         )}
       </div>
       <div className="titleBarBtns">

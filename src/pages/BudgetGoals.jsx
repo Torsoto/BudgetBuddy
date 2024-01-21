@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../styles/BudgetGoals.css";
 import { auth, db } from "../../firebase/firestore.mjs";
+import { GlobalContext } from "../context/GlobalContext";
 import {
   collection,
   addDoc,
@@ -10,7 +11,6 @@ import {
   doc,
 } from "firebase/firestore";
 
-
 const BudgetGoals = () => {
   const [budgetGoals, setBudgetGoals] = useState([]);
   const [newGoal, setNewGoal] = useState("");
@@ -19,11 +19,27 @@ const BudgetGoals = () => {
   const [editGoalId, setEditGoalId] = useState(null);
   const [editGoalText, setEditGoalText] = useState("");
   const [editGoalAmount, setEditGoalAmount] = useState("");
-
   const [newGoalType, setNewGoalType] = useState("Expense");
   const [editGoalType, setEditGoalType] = useState("");
   const [newGoalCategory, setNewGoalCategory] = useState("Select Category");
   const [editGoalCategory, setEditGoalCategory] = useState("");
+  const { setNotificationsLimit } = useContext(GlobalContext);
+
+
+  const checkGoalAgainstEntries = async (category, amount, type) => {
+    const entriesSnapshot = await getDocs(collection(db, "users", auth.currentUser.uid, "entries"));
+    const entries = entriesSnapshot.docs.map(doc => ({ ...doc.data() }));
+
+    const totalForCategory = entries
+      .filter(entry => entry.category === category && entry.type === type)
+      .reduce((total, entry) => total + parseFloat(entry.amount), 0);
+
+    if (totalForCategory > parseFloat(amount)) {
+      const exceededAmount = totalForCategory - parseFloat(amount);
+      const notificationMessage = `Budget goal for ${category} exceeded by ${exceededAmount.toFixed(2)}`;
+      setNotificationsLimit(prevNotifications => [...prevNotifications, notificationMessage]);
+    }
+  };
 
   const getCategories = () => {
     // Define categories based on entry type
@@ -85,13 +101,14 @@ const BudgetGoals = () => {
     setNewGoalCategory('Select Category');
     setShowPopup(false);
     fetchData();
+    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   const showAddGoalPopup = () => {
     setShowPopup(true);
   };
 
-  const handleEditGoal = (goalId) => {
+  const handleEditGoal = async (goalId) => {
     const goalToEdit = budgetGoals.find((goal) => goal.id.toString() === goalId.toString());
 
     setEditGoalId(goalId);
@@ -101,6 +118,7 @@ const BudgetGoals = () => {
     setEditGoalCategory(goalToEdit.category || "Select category");
 
     setShowPopup(true);
+    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   //edit budget goal
