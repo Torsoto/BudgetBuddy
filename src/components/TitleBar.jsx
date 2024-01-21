@@ -66,6 +66,8 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
     fetchNotifications();
   }, []);
 
+
+
   return (
     <div className="topbar">
       <div className="titlebar">

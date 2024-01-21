@@ -2,11 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import EntryForm from "../components/EntryForm"
 import EntriesTable from "../components/EntriesTable";
 import { auth, db } from '../../firebase/firestore.mjs';
-import { GlobalContext } from "../context/GlobalContext";
 import { collection, addDoc, updateDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
 import { CSVLink } from "react-csv";
 import "../styles/Entries.css";
-import BudgetGoals from "./BudgetGoals";
 
 const Entries = ({ isSidebarOpen }) => {
   const [financialEntries, setFinancialEntries] = useState([]);
