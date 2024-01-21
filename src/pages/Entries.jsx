@@ -187,7 +187,6 @@ const Entries = ({ isSidebarOpen }) => {
     await fetchData();
     setNotificationsSent(false);
     openEntryCreation();
-    notifyAndSaveIfExceedsBudget(newEntry);
   };
 
 
