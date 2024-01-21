@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Switch from "@mui/material/Switch"; // Importieren Sie die Switch-Komponente
 import "../styles/TitleBar.css";
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
@@ -53,12 +52,6 @@ const TitleBar = ({ onToggleSidebar, darkMode, setDarkMode }) => {
           onClick={onToggleSidebar}
         ></button>
         <div className="title">BudgetBuddy</div>
-        <Switch
-          checked={darkMode}
-          onChange={() => setDarkMode(!darkMode)}
-          className="darkModeSwitch"
-        />
-        <p>Change Theme</p>
         {profileImage && (
           <img
             src={profileImage}

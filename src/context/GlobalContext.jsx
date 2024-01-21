@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }) => {
         "Education": "#9103E8",
         "Travel": "#03E8E3",
         "Housing": "#E88803",
+        "Shopping": "#03E8E3",
         "Other Expense": "#000000",
     });
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import "../styles/ColorChangePopup.css";
 
 const ColorChangePopup = ({ categoryColors, setCategoryColors, onClose }) => {
   const [selectedColors, setSelectedColors] = useState(categoryColors);
@@ -21,17 +22,17 @@ const ColorChangePopup = ({ categoryColors, setCategoryColors, onClose }) => {
             value={selectedColors[category]}
             onChange={(e) => handleColorChange(category, e.target.value)}
           >
-            <option value="#00FFAD">#Mint Green</option>
-            <option value="#E8D603">#E8D603</option>
-            <option value="#11E803">#11E803</option>
-            <option value="#D603E8">#D603E8</option>
-            <option value="#8AFF00">#8AFF00</option>
-            <option value="#031EE8">#031EE8</option>
-            <option value="#E80303">#E80303</option>
-            <option value="#9103E8">#9103E8</option>
-            <option value="#03E8E3">#03E8E3</option>
-            <option value="#E88803">#E88803</option>
-            <option value="#000000">#000000</option>
+            <option value="#00FFAD">Mint Green</option>
+            <option value="#E8D603">Yellow</option>
+            <option value="#11E803">Green</option>
+            <option value="#D603E8">Pink</option>
+            <option value="#8AFF00">Green</option>    
+            <option value="#031EE8">Blue</option>
+            <option value="#E80303">Red</option>
+            <option value="#9103E8">Purple</option>
+            <option value="#03E8E3">Turquoise</option>
+            <option value="#E88803">Orange</option>
+            <option value="#723C1E">Brown</option>
           </select>
         </div>
       ))}
