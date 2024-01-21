@@ -43,7 +43,7 @@ const EntriesTable = ({
               <td>{formatTime(entry.time)}</td>
               <td>{entry.amount} €</td>
               <td>{entry.type}</td>
-              <td style={{ backgroundColor: categoryColors[entry.category], borderRadius: '10px' }}>
+              <td style={{ backgroundColor: categoryColors[entry.category], borderRadius: '5px'}}>
                 {entry.category}
               </td>
               <td>{entry.bankname}</td>

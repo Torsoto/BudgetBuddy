@@ -33,6 +33,9 @@ const ColorChangePopup = ({ categoryColors, setCategoryColors, onClose }) => {
             <option value="#03E8E3">Turquoise</option>
             <option value="#E88803">Orange</option>
             <option value="#723C1E">Brown</option>
+            <option value="#03E8E3">Turquoise</option>
+            <option value="#E88803">Orange</option>
+            <option value="#723C1E">Brown</option>
           </select>
         </div>
       ))}

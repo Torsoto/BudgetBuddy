@@ -8,6 +8,8 @@ export const GlobalProvider = ({ children }) => {
     const [outcomeGraphType, setOutcomeGraphType] = useState('Doughnut');
     const [categoryColors, setCategoryColors] = useState({
         "Salary": "#00FFAD",
+        "Bonus": "#E8D603",
+        "Other Income": "#11E803",
         "Food & Drinks": "#E8D603",
         "Entertainment": "#11E803",
         "Groceries": "#D603E8",
@@ -18,7 +20,7 @@ export const GlobalProvider = ({ children }) => {
         "Travel": "#03E8E3",
         "Housing": "#E88803",
         "Shopping": "#03E8E3",
-        "Other Expense": "#000000",
+        "Other Expense": "#723C1E",
     });
 
     return (
