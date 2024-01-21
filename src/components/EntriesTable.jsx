@@ -15,7 +15,6 @@ const EntriesTable = ({
 }) => {
   const { categoryColors, setCategoryColors } = useContext(GlobalContext);
 
-  console.log("Financial Entries:", financialEntries);
   return (
     <div className="entry-container">
       <div className="Balance-text">

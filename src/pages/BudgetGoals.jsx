@@ -90,7 +90,6 @@ const BudgetGoals = () => {
     setNewGoalCategory("Select Category");
     setShowPopup(false);
     fetchData();
-    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   const showAddGoalPopup = () => {
@@ -107,7 +106,6 @@ const BudgetGoals = () => {
     setEditGoalCategory(goalToEdit.category || "Select category");
 
     setShowPopup(true);
-    await checkGoalAgainstEntries(newGoalCategory, newGoalAmount, newGoalType);
   };
 
   //edit budget goal
