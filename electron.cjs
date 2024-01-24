@@ -10,7 +10,7 @@ const createWindow = () => {
         frame: false,
         minWidth: 940,
         minHeight: 768,
-        icon: path.join(__dirname, 'icon.png'),
+        icon: path.join(__dirname, 'public/icon.png'),
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
