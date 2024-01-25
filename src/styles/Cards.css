@@ -28,3 +28,25 @@
   margin: 10px 30px 10px 30px;
 }
 
+.form-element{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+.form-element input{
+  width: 40%;
+}
+
+.form-element label{
+  width: 70px;
+}
+
+.last {
+margin-bottom: 20px;
+}
+
+#error {
+  visibility: hidden;
+  color:red;
+}

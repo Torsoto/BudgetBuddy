@@ -125,12 +125,12 @@ const Cards = () => {
       const affectedEntries = entriesData.filter(
         (entry) => entry.bankname === delCard.bankname
       );
-      console.log(delCard)
-      console.log(affectedEntries)
 
       // Update entries
       const updatedEntries = entriesData.map((entry) =>
-        affectedEntries.find((affectedEntry) => affectedEntry.bankname === entry.bankname)
+        affectedEntries.find(
+          (affectedEntry) => affectedEntry.bankname === entry.bankname
+        )
           ? { ...entry, bankname: "" } // Remove reference to the deleted card
           : entry
       );
@@ -187,41 +187,49 @@ const Cards = () => {
       {formVisible && (
         <div id="formContainer">
           <form>
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              onChange={(e) =>
-                setNewCard({ ...newCard, bankname: e.target.value })
-              }
-              required
-            />
+            <div className="form-element">
+              <label htmlFor="name">Name*:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                onChange={(e) =>
+                  setNewCard({ ...newCard, bankname: e.target.value })
+                }
+                required
+              />
+            </div>
 
-            <br />
-
-            <label htmlFor="iban">IBAN:*</label>
-            <input
-              type="text"
-              id="iban"
-              name="iban"
-              onChange={(e) => setNewCard({ ...newCard, iban: e.target.value })}
-            />
-
-            <br />
-
-            <label htmlFor="iban">Valid till:*</label>
-            <input
-              type="datetime-local"
-              id="validTill"
-              name="validTill"
-              onChange={(e) =>
-                setNewCard({ ...newCard, validTill: e.target.value })
-              }
-            />
-
-            <br />
-
+            <div className="form-element">
+              <label htmlFor="iban">IBAN:</label>
+              <input
+                type="text"
+                id="iban"
+                name="iban"
+                onChange={(e) =>
+                  setNewCard({ ...newCard, iban: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-element last">
+              <label htmlFor="iban">Valid till:</label>
+              <input
+                type="datetime-local"
+                id="validTill"
+                name="validTill"
+                onChange={(e) => {
+                  if(new Date(e.target.value) > new Date){
+                    setNewCard({ ...newCard, validTill: e.target.value })
+                    document.getElementById("error").style.visibility = "hidden";
+                  }
+                  else{
+                    console.log("future date!");
+                    document.getElementById("error").style.visibility = "visible";
+                  }
+                }}
+              />
+            </div>
+            <p id="error">Please enter a future date!</p>
             <button type="button" onClick={addCard}>
               Add Card
             </button>
