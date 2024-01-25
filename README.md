@@ -28,7 +28,7 @@ Das System muss Benutzern die Möglichkeit bieten, Einnahmen und Ausgaben zu kat
 Die Anwendung soll dem User die Möglichkeit bieten die Farben der Kategorien zu tauschen.
 - **S2** | *Benachrichtigungen bei Budgetabweichungen* <br>
 Benutzer sollen die Möglichkeit haben, Benachrichtigungen zu erhalten, wenn ihre Ausgaben ein festgelegtes Budget überschreiten, um proaktiv auf finanzielle Herausforderungen zu reagieren.
-- **S3** | **Diagramme* <br>
+- **S3** | *Diagramme* <br>
 Benutzer sollen die Möglichkeit haben, sich ihre Finanzen anhand von Kreis-, Balkan- und Liniendiagrammen zu visualisieren. 
 
 ### Could
