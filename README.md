@@ -18,7 +18,7 @@ Das System muss sicherstellen, dass Benutzer sich anmelden und mit einem Passwor
 Das System muss Benutzern die Möglichkeit bieten, Einnahmen und Ausgaben hinzuzufügen, zu bearbeiten und zu löschen, um eine genaue Erfassung ihrer finanziellen Einnahmen zu ermöglichen
 - **M3** | *Dashboard mit Finanzübersicht*: <br>
 Das System muss ein Dashboard-Modul implementieren, das einen Überblick über Einnahmen, Ausgaben und Budget bietet.
-- **M4** | *Budgetziele setzen und Fortschritt überwachen** <br>
+- **M4** | *Budgetziele setzen und Fortschritt überwachen* <br>
 Das System muss Benutzern ermöglichen, Budgetziele zu setzen und den Fortschritt zu überwachen.
 - **M5** | *Kategorisierung von Einnahmen und Ausgaben* <br>
 Das System muss Benutzern die Möglichkeit bieten, Einnahmen und Ausgaben zu kategorisieren.
