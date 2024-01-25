@@ -54,25 +54,31 @@ const Homepage = () => {
         const userEntriesSnapshot = await getDocs(userEntriesQuery);
 
         // Process entries to separate income and outcome
-        const incomeEntries = [];
-        const outcomeEntries = [];
+        const incomeByCategory = {};
+        const outcomeByCategory = {};
         const uniqueOutcomeCategories = new Set();
 
         userEntriesSnapshot.forEach((doc) => {
           const entryData = doc.data();
+          const amount = parseFloat(entryData.amount);
           if (entryData.type === "Income") {
-            incomeEntries.push({
-              label: entryData.category,
-              value: entryData.amount,
-            });
+            incomeByCategory[entryData.category] = (incomeByCategory[entryData.category] || 0) + amount;
           } else {
-            outcomeEntries.push({
-              label: entryData.category,
-              value: entryData.amount,
-            });
+            outcomeByCategory[entryData.category] = (outcomeByCategory[entryData.category] || 0) + amount;
             uniqueOutcomeCategories.add(entryData.category);
           }
         });
+
+        // Convert the accumulated data into the array format for the chart
+        const incomeEntries = Object.keys(incomeByCategory).map((category) => ({
+          label: category,
+          value: incomeByCategory[category],
+        }));
+
+        const outcomeEntries = Object.keys(outcomeByCategory).map((category) => ({
+          label: category,
+          value: outcomeByCategory[category],
+        }));
 
         setIncomeData(incomeEntries);
         setOutcomeData(outcomeEntries);
